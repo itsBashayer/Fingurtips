@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "ChatGPT Image Apr 23, 2025 at 11_13_25 AM Background Removed 2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

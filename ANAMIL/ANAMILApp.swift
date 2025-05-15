@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ANAMILApp: App {
+    @StateObject private var voiceRecorderManager = VoiceRecorderManager() // Create instance of VoiceRecorderManager
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreen()
+            
+                            .environmentObject(VoiceRecorderManager())  // Add environment object in the preview
+                                       .environmentObject(CloudKitManager())  // Add CloudKitManager if needed
         }
     }
 }
