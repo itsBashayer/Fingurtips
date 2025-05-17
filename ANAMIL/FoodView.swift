@@ -68,6 +68,8 @@ struct FoodView: View {
                 }
             }
         }//end
+    
+    // عدلت هذا كامل🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -76,12 +78,7 @@ struct FoodView: View {
                 let cardWidth = isPad ? 220.0 : 160.0
                 let dynamicColor = UserDefaults.standard.string(forKey: "color-category-\(categoryID.recordName)").map(Color.init(hex:)) ?? .yelow1
 
-                ZStack {
-                    Image("Background")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-
+                VStack(spacing: 0) {
                     ScrollView {
                         VStack(alignment: .trailing, spacing: 16) {
                             HStack {
@@ -90,34 +87,26 @@ struct FoodView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             isEditing.toggle()
-                                        } else {
-                                            print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            
+                                }
+                            }
                             .padding(.horizontal)
-                            .padding(.top, geo.size.height > 800 ? 400 : 20)
+                            .padding(.top, 40)
 
-                          //  .padding(.top, UIScreen.main.bounds.height > 800 ? 400 : 20) //\
-                    
-                            
-                            //.padding(.top, UIScreen.main.bounds.height > 800 ? 50 : 400)
                             Text("أكلي")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
 
-                            NavigationLink( // ↩️
+                            NavigationLink(
                                 destination: Group {
                                     if let card = selectedStaticCard {
                                         EditCardView(card: .constant(card))
@@ -132,7 +121,7 @@ struct FoodView: View {
                             ) {
                                 EmptyView()
                             }
-                            .hidden() // ↩️
+                            .hidden()
 
                             LazyVGrid(columns: columns, spacing: 28) {
                                 ForEach(staticCards.indices, id: \.self) { index in
@@ -141,7 +130,7 @@ struct FoodView: View {
                                         isEditing: $isEditing,
                                         cardWidth: cardWidth,
                                         onEditTap: {
-                                            selectedStaticCard = staticCards[index] // ↩️
+                                            selectedStaticCard = staticCards[index]
                                         }
                                     )
                                     .environmentObject(voiceRecorderManager)
@@ -159,23 +148,22 @@ struct FoodView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             authPassed = true
-                                            showAddListSheet=true
-                                        } else {
-                                            // Optional: Add error handling or alert
-                                            print("Authentication failed or canceled")
+                                            showAddListSheet = true
                                         }
                                     }
                                 }) {
                                     CardButtonView(
                                         card: .constant(
-                                            StaticCard(title: "إضافة كرت",
-                                                       imageName: "Plus Sign",
-                                                       frameColor: .blue1,
-                                                       strokeColor: .blue1,
-                                                       iconName: "Adding Icon",
-                                                       imageTopPadding: 10,
-                                                       recordID: CKRecord.ID(recordName: "new"),
-                                                       categoryID: categoryID)
+                                            StaticCard(
+                                                title: "إضافة كرت",
+                                                imageName: "Plus Sign",
+                                                frameColor: .blue1,
+                                                strokeColor: .blue1,
+                                                iconName: "Adding Icon",
+                                                imageTopPadding: 10,
+                                                recordID: CKRecord.ID(recordName: "new"),
+                                                categoryID: categoryID
+                                            )
                                         ),
                                         isEditing: .constant(false),
                                         cardWidth: cardWidth
@@ -186,9 +174,18 @@ struct FoodView: View {
                                         .environmentObject(cloudKitManager)
                                 }
                             }
+
+                            Spacer(minLength: 100)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height)
                     }
+                    .background(
+                        Image("Background")
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    )
                 }
             }
         }
@@ -198,6 +195,7 @@ struct FoodView: View {
             }
         }
     }
+
 }
 
 struct FoodCardView: View {

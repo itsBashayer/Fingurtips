@@ -62,17 +62,15 @@ struct CategoryView: View {
                                             print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            
+                                }
+                            }
                             .padding(.horizontal)
                             .padding(.top, 40)
 
@@ -98,12 +96,12 @@ struct CategoryView: View {
                                             VStack(alignment: .leading, spacing: 8) {
                                                 ZStack(alignment: .topTrailing) {
                                                     categoryColor
-                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9) // 🌸
+                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
                                                         .cornerRadius(21.79)
 
                                                     Image(uiImage: image)
                                                         .resizable()
-                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
+                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
                                                         .cornerRadius(21.79)
 
                                                     if isEditing {
@@ -126,7 +124,7 @@ struct CategoryView: View {
                                                                     .foregroundColor(.blue)
                                                                     .padding(10)
                                                             }
-                                                            .padding(.trailing, -5) // 🌸
+                                                            .padding(.trailing, -5)
                                                         }
                                                     }
                                                 }
@@ -154,9 +152,13 @@ struct CategoryView: View {
                                     addCardButton(cardWidth: cardWidth)
                                 }
                             }
+
+                            Spacer(minLength: 100) //🩷
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height) //🩷
                     }
+
                 }
             }
         }

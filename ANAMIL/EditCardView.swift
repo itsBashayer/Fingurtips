@@ -57,6 +57,7 @@ struct EditCardView: View {
                     .scaledToFill()
                     .ignoresSafeArea()
 
+                // عدلت هذا كامل🩷
                 ScrollView {
                     VStack(spacing: 20) {
                         HStack {
@@ -258,14 +259,15 @@ struct EditCardView: View {
                             }
                         }
 
-                        Spacer()
+                        Spacer(minLength: 80) // 🩷
                     }
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker1(image: $selectedUIImage)
                     }
                     .padding()
-                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: geo.size.height) // 🩷
                 }
+
             }
         }
     }

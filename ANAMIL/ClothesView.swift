@@ -69,7 +69,9 @@ struct ClothesView: View {
                 }
             }
         }//end
-
+    
+    
+    // عدلت هذا كامل🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -77,12 +79,7 @@ struct ClothesView: View {
                 let columns = [GridItem(.adaptive(minimum: isPad ? 220 : 160), spacing: 20)]
                 let cardWidth = isPad ? 220.0 : 160.0
 
-                ZStack {
-                    Image("Background")
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-
+                VStack(spacing: 0) {
                     ScrollView {
                         VStack(alignment: .trailing, spacing: 16) {
                             HStack {
@@ -91,33 +88,25 @@ struct ClothesView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             isEditing.toggle()
-                                        } else {
-                                            print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            
-                            .padding(.horizontal)
-                            .padding(.top, geo.size.height > 800 ? 400 : 20)
-
-
-                            VStack(alignment: .trailing, spacing: 8) {
-                                Text("ملابسي")
-                                    .font(.system(size: 24, weight: .bold))
-                                    .foregroundColor(.black)
+                                }
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.horizontal)
+                            .padding(.top, 40)
 
-                            // ↩️ التنقل الآمن إلى شاشة التعديل
+                            Text("ملابسي")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+
                             NavigationLink(
                                 destination: Group {
                                     if let card = selectedStaticCard {
@@ -133,7 +122,7 @@ struct ClothesView: View {
                             ) {
                                 EmptyView()
                             }
-                            .hidden() // ↩️
+                            .hidden()
 
                             LazyVGrid(columns: columns, spacing: 28) {
                                 ForEach(staticCards.indices, id: \.self) { index in
@@ -142,7 +131,7 @@ struct ClothesView: View {
                                         isEditing: $isEditing,
                                         cardWidth: cardWidth,
                                         onEditTap: {
-                                            selectedStaticCard = staticCards[index] // ↩️
+                                            selectedStaticCard = staticCards[index]
                                         }
                                     )
                                     .environmentObject(voiceRecorderManager)
@@ -162,13 +151,10 @@ struct ClothesView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             authPassed = true
-                                            showAddListSheet=true
-                                        } else {
-                                            // Optional: Add error handling or alert
-                                            print("Authentication failed or canceled")
+                                            showAddListSheet = true
                                         }
                                     }
-                                }){
+                                }) {
                                     CardButtonView(
                                         card: .constant(
                                             StaticCard(title: "إضافة كرت",
@@ -189,9 +175,18 @@ struct ClothesView: View {
                                         .environmentObject(cloudKitManager)
                                 }
                             }
+
+                            Spacer(minLength: 100)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height)
                     }
+                    .background(
+                        Image("Background")
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    )
                 }
             }
         }
@@ -201,6 +196,9 @@ struct ClothesView: View {
             }
         }
     }
+
+    
+    
 }
 
 

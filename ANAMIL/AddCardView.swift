@@ -1,6 +1,4 @@
 
-
-
 import SwiftUI
 import PhotosUI
 import CloudKit
@@ -179,12 +177,16 @@ struct AddCardView: View {
                                     )
                                     .cornerRadius(34.83)
                             }
+
+                            Spacer(minLength: 80) //🩷
                         }
                         .sheet(isPresented: $showImagePicker) {
                             ImagePicker(image: $selectedUIImage)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height) //🩷
                     }
+
                 }
             }
         }

@@ -74,6 +74,8 @@ struct FeelingsView: View {
                 }
             }
         }//end
+    
+    // عدلت هذا كامل🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -82,12 +84,7 @@ struct FeelingsView: View {
                 let cardWidth = isPad ? 220.0 : 160.0
                 let dynamicColor = UserDefaults.standard.string(forKey: "color-category-\(categoryID.recordName)").map(Color.init(hex:)) ?? .purple1
 
-                ZStack {
-                    Image("Background")
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-
+                VStack(spacing: 0) {
                     ScrollView {
                         VStack(alignment: .trailing, spacing: 16) {
                             HStack {
@@ -96,31 +93,26 @@ struct FeelingsView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             isEditing.toggle()
-                                        } else {
-                                            print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            
+                                }
+                            }
                             .padding(.horizontal)
-                            .padding(.top, geo.size.height > 800 ? 400 : 20)
-
+                            .padding(.top, 40)
 
                             Text("مشاعري")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
 
-                            NavigationLink( // ↩️
+                            NavigationLink(
                                 destination: Group {
                                     if let card = selectedStaticCard {
                                         EditCardView(card: .constant(card))
@@ -135,7 +127,7 @@ struct FeelingsView: View {
                             ) {
                                 EmptyView()
                             }
-                            .hidden() // ↩️
+                            .hidden()
 
                             LazyVGrid(columns: columns, spacing: 28) {
                                 ForEach(staticCards.indices, id: \.self) { index in
@@ -144,7 +136,7 @@ struct FeelingsView: View {
                                         isEditing: $isEditing,
                                         cardWidth: cardWidth,
                                         onEditTap: {
-                                            selectedStaticCard = staticCards[index] // ↩️
+                                            selectedStaticCard = staticCards[index]
                                         }
                                     )
                                     .environmentObject(voiceRecorderManager)
@@ -162,10 +154,7 @@ struct FeelingsView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             authPassed = true
-                                            showAddListSheet=true
-                                        } else {
-                                            // Optional: Add error handling or alert
-                                            print("Authentication failed or canceled")
+                                            showAddListSheet = true
                                         }
                                     }
                                 }) {
@@ -191,9 +180,18 @@ struct FeelingsView: View {
                                         .environmentObject(cloudKitManager)
                                 }
                             }
+
+                            Spacer(minLength: 100)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height)
                     }
+                    .background(
+                        Image("Background")
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    )
                 }
             }
         }
@@ -203,6 +201,7 @@ struct FeelingsView: View {
             }
         }
     }
+
 }
 
 struct FeelingCardView: View {

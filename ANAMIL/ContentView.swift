@@ -3,7 +3,7 @@
 //  ANAMIL
 //
 //  Created by BASHAER AZIZ on 29/10/1446 AH.
-//
+//   .padding(.top, geo.size.height > 800 ? 400 : 20)
 
 
 
@@ -65,180 +65,178 @@ struct ContentView: View {
             }
         }//end
 
+ 
     var body: some View {
         NavigationStack {
-            
             GeometryReader { geo in
                 let isPad = geo.size.width > 600
                 let columns = [GridItem(.adaptive(minimum: isPad ? 220 : 160), spacing: 20)]
                 let cardWidth = isPad ? 220.0 : 160.0
 
-                ZStack {
-                    Image("onboarding")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-
+                VStack(spacing: 0) {
                     ScrollView {
                         VStack(alignment: .trailing, spacing: 16) {
+                            
                             HStack {
                                 Spacer()
                                 Button(action: {
                                     authenticateWithFaceID { success in
                                         if success {
                                             isEditing.toggle()
-                                        } else {
-                                            print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            .padding(.horizontal)
-                            .padding(.top, geo.size.height > 800 ? 400 : 20)
-
-                            
-
-                            VStack(alignment: .trailing, spacing: 16) {
-                                VStack(alignment: .trailing, spacing: 8) {
-                                    Text("قوائم طفلك ")
-                                        .font(.system(size: 24, weight: .bold))
-                                        .foregroundColor(.black)
-
-                                    Text("لا تنسى تفعيل الأشعارات!")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.black)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-
-                                LazyVGrid(columns: columns, spacing: 28) {
-                                    ForEach($staticCards) { $card in
-                                        NavigationLink(destination: destinationView(for: card).environmentObject(cloudKitManager)) {
-                                            CardButtonView(card: $card, isEditing: $isEditing, cardWidth: cardWidth)
-                                        }
-                                    }
-
-                                    ForEach(cloudKitManager.lists) { list in
-                                        NavigationLink(
-                                            destination: CategoryView(categoryID: list.id, categoryColor: list.color, categoryTitle: list.title)
-                                                .environmentObject(cloudKitManager)) {
-                                            VStack(spacing: 8) {
-                                                ZStack(alignment: .topTrailing) {
-                                                    RoundedRectangle(cornerRadius: 21.79)
-                                                        .fill(list.color)
-                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9) // 🌸
-
-                                                    if let uiImage = list.image {
-                                                        Image(uiImage: uiImage)
-                                                            .resizable()
-                                                            .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
-                                                            .cornerRadius(21.79)
-                                                    } else {
-                                                        Image(systemName: "photo")
-                                                            .resizable()
-                                                            .frame(width: 40, height: 40)
-                                                            .foregroundColor(.gray)
-                                                            .padding(.top, 40)
-                                                    }
-
-                                                    if isEditing {
-                                                        NavigationLink(destination: EditListView(
-                                                            initialName: list.title,
-                                                            initialImage: list.image,
-                                                            initialColor: list.color,
-                                                            isCloudItem: true,
-                                                            recordID: list.id
-                                                        ).environmentObject(cloudKitManager)) {
-                                                            ZStack {
-                                                                Circle()
-                                                                    .fill(Color.blue.opacity(0.2))
-                                                                    .frame(width: 36, height: 36)
-
-                                                                Image(systemName: "pencil")
-                                                                    .resizable()
-                                                                    .scaledToFit()
-                                                                    .frame(width: 16, height: 16)
-                                                                    .foregroundColor(.blue)
-                                                                    .padding(10)
-                                                            }
-                                                            .padding(.trailing, -5) // 🌸
-                                                        }
-                                                    }
-                                                }
-
-                                                Text(list.title)
-                                                    .font(.system(size: 21.78))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(.primary)
-                                                    .multilineTextAlignment(.center)
-                                                    .frame(maxWidth: .infinity, alignment: .center)
-                                            }
-                                            .padding()
-                                            .frame(width: cardWidth, height: cardWidth * 1.5)
-                                            .cornerRadius(21.78)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 21.78)
-                                                    .stroke(list.color, lineWidth: 3.27)
-                                            )
-                                        }
-                                    }
-                                    
-//start
-                                    Button(action: {
-                                        authenticateWithFaceID { success in
-                                            if success {
-                                                authPassed = true
-                                            } else {
-                                                // Optional: Add error handling or alert
-                                                print("Authentication failed or canceled")
-                                            }
-                                        }
-                                    }) {
-                                        CardButtonView(card: .constant(
-                                            StaticCard(
-                                                title: "إضافة قائمة",
-                                                imageName: "Plus Sign",
-                                                frameColor: .blue1,
-                                                strokeColor: .darkBlue,
-                                                iconName: "Adding Icon",
-                                                imageTopPadding: 10,
-                                                recordID: CKRecord.ID(recordName: "إضافة قائمة"),
-                                                categoryID: CKRecord.ID(recordName: "إضافة قائمة")
-                                            )
-                                        ), isEditing: $isEditing, cardWidth: cardWidth)
-                                    }
-                                    .fullScreenCover(isPresented: $authPassed) {
-                                        AddListView().environmentObject(cloudKitManager)
-                                    } //end
                                 }
                             }
+                            .padding(.horizontal)
+                            .padding(.top, 30)
+                            //   .padding(.top, geo.size.height > 800 ? 400 : 20)
+
+                            
+                            VStack(alignment: .trailing, spacing: 8) {
+                                Text("قوائم طفلك ")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundColor(.black)
+
+                                Text("لا تنسى تفعيل الأشعارات!")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+
+                        
+                            LazyVGrid(columns: columns, spacing: 28) {
+                                ForEach($staticCards) { $card in
+                                    NavigationLink(destination: destinationView(for: card).environmentObject(cloudKitManager)) {
+                                        CardButtonView(card: $card, isEditing: $isEditing, cardWidth: cardWidth)
+                                    }
+                                }
+
+                                ForEach(cloudKitManager.lists) { list in
+                                    NavigationLink(
+                                        destination: CategoryView(categoryID: list.id, categoryColor: list.color, categoryTitle: list.title)
+                                            .environmentObject(cloudKitManager)) {
+                                        VStack(spacing: 8) {
+                                            ZStack(alignment: .topTrailing) {
+                                                RoundedRectangle(cornerRadius: 21.79)
+                                                    .fill(list.color)
+                                                    .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
+
+                                                if let uiImage = list.image {
+                                                    Image(uiImage: uiImage)
+                                                        .resizable()
+                                                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
+                                                        .cornerRadius(21.79)
+                                                } else {
+                                                    Image(systemName: "photo")
+                                                        .resizable()
+                                                        .frame(width: 40, height: 40)
+                                                        .foregroundColor(.gray)
+                                                        .padding(.top, 40)
+                                                }
+
+                                                if isEditing {
+                                                    NavigationLink(destination: EditListView(
+                                                        initialName: list.title,
+                                                        initialImage: list.image,
+                                                        initialColor: list.color,
+                                                        isCloudItem: true,
+                                                        recordID: list.id
+                                                    ).environmentObject(cloudKitManager)) {
+                                                        ZStack {
+                                                            Circle()
+                                                                .fill(Color.blue.opacity(0.2))
+                                                                .frame(width: 36, height: 36)
+
+                                                            Image(systemName: "pencil")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 16, height: 16)
+                                                                .foregroundColor(.blue)
+                                                                .padding(10)
+                                                        }
+                                                        .padding(.trailing, -5)
+                                                    }
+                                                }
+                                            }
+
+                                            Text(list.title)
+                                                .font(.system(size: 21.78))
+                                                .fontWeight(.medium)
+                                                .foregroundColor(.primary)
+                                                .multilineTextAlignment(.center)
+                                                .frame(maxWidth: .infinity, alignment: .center)
+                                        }
+                                        .padding()
+                                        .frame(width: cardWidth, height: cardWidth * 1.5)
+                                        .cornerRadius(21.78)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 21.78)
+                                                .stroke(list.color, lineWidth: 3.27)
+                                        )
+                                    }
+                                }
+
+                                
+                                Button(action: {
+                                    authenticateWithFaceID { success in
+                                        if success {
+                                            authPassed = true
+                                        }
+                                    }
+                                }) {
+                                    CardButtonView(card: .constant(
+                                        StaticCard(
+                                            title: "إضافة قائمة",
+                                            imageName: "Plus Sign",
+                                            frameColor: .blue1,
+                                            strokeColor: .darkBlue,
+                                            iconName: "Adding Icon",
+                                            imageTopPadding: 10,
+                                            recordID: CKRecord.ID(recordName: "إضافة قائمة"),
+                                            categoryID: CKRecord.ID(recordName: "إضافة قائمة")
+                                        )
+                                    ), isEditing: $isEditing, cardWidth: cardWidth)
+                                }
+                                .fullScreenCover(isPresented: $authPassed) {
+                                    AddListView().environmentObject(cloudKitManager)
+                                }
+                            }
+
+                            Spacer(minLength: 100)
                         }
-                        Spacer()
+                        .padding()
+                        .frame(minHeight: geo.size.height)
                     }
-                    .padding()
+                    .background(
+                        Image("onboarding")
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    )
                 }
             }
-        }
-        .onAppear {
-            cloudKitManager.fetchLists()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                loadedTitle = UserDefaults.standard.string(forKey: "title-\(CategoryIDs.feelings.recordName)") ?? "المشاعر"
-                loadedColor = Color(hex: UserDefaults.standard.string(forKey: "color-category-feelings") ?? "#0000FF")
-                if let imageData = UserDefaults.standard.data(forKey: "image-\(CategoryIDs.feelings.recordName)"),
-                   let image = UIImage(data: imageData) {
-                    loadedImage = image
+            .onAppear {
+                cloudKitManager.fetchLists()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    loadedTitle = UserDefaults.standard.string(forKey: "title-\(CategoryIDs.feelings.recordName)") ?? "المشاعر"
+                    loadedColor = Color(hex: UserDefaults.standard.string(forKey: "color-category-feelings") ?? "#0000FF")
+                    if let imageData = UserDefaults.standard.data(forKey: "image-\(CategoryIDs.feelings.recordName)"),
+                       let image = UIImage(data: imageData) {
+                        loadedImage = image
+                    }
+                    self.staticCards = loadStaticCards()
                 }
-                self.staticCards = loadStaticCards()
             }
         }
     }
+
 
     private func loadStaticCards() -> [StaticCard] {
         func loadTitle(for id: CKRecord.ID, defaultTitle: String) -> String {

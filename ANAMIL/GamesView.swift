@@ -67,6 +67,7 @@ struct GamesView: View {
             }
         }//end
     
+    // عدلت هذا كامل🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -75,12 +76,7 @@ struct GamesView: View {
                 let cardWidth = isPad ? 220.0 : 160.0
                 let dynamicColor = UserDefaults.standard.string(forKey: "color-category-\(categoryID.recordName)").map(Color.init(hex:)) ?? .lavender
 
-                ZStack {
-                    Image("Background")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-
+                VStack(spacing: 0) {
                     ScrollView {
                         VStack(alignment: .trailing, spacing: 16) {
                             HStack {
@@ -89,31 +85,25 @@ struct GamesView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             isEditing.toggle()
-                                        } else {
-                                            print("Authentication failed or canceled")
                                         }
                                     }
-                                }
-                                
-                                ) {
+                                }) {
                                     Text(isEditing ? "تم" : "تعديل")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
-                                }                            }
-                            
+                                }
+                            }
                             .padding(.horizontal)
-                            .padding(.top, geo.size.height > 800 ? 400 : 20)
-
+                            .padding(.top, 40)
 
                             Text("العابي")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
 
-                            // ↩️ التنقل الآمن عبر selectedStaticCard
                             NavigationLink(
                                 destination: Group {
                                     if let card = selectedStaticCard {
@@ -129,8 +119,7 @@ struct GamesView: View {
                             ) {
                                 EmptyView()
                             }
-                            .hidden() // ↩️
-
+                            .hidden()
 
                             LazyVGrid(columns: columns, spacing: 28) {
                                 ForEach(staticCards.indices, id: \.self) { index in
@@ -139,7 +128,7 @@ struct GamesView: View {
                                         isEditing: $isEditing,
                                         cardWidth: cardWidth,
                                         onEditTap: {
-                                            selectedStaticCard = staticCards[index] // ↩️
+                                            selectedStaticCard = staticCards[index]
                                         }
                                     )
                                     .environmentObject(voiceRecorderManager)
@@ -157,10 +146,7 @@ struct GamesView: View {
                                     authenticateWithFaceID { success in
                                         if success {
                                             authPassed = true
-                                            showAddListSheet=true
-                                        } else {
-                                            // Optional: Add error handling or alert
-                                            print("Authentication failed or canceled")
+                                            showAddListSheet = true
                                         }
                                     }
                                 }) {
@@ -186,9 +172,18 @@ struct GamesView: View {
                                         .environmentObject(cloudKitManager)
                                 }
                             }
+
+                            Spacer(minLength: 100)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height)
                     }
+                    .background(
+                        Image("Background")
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    )
                 }
             }
         }
@@ -198,6 +193,7 @@ struct GamesView: View {
             }
         }
     }
+
 }
 
 

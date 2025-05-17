@@ -60,6 +60,7 @@ struct EditListView: View {
                         .scaledToFill()
                         .ignoresSafeArea()
 
+                    // عدلت هذا كامل🩷
                     ScrollView {
                         VStack(spacing: 20) {
                             HStack {
@@ -215,11 +216,13 @@ struct EditListView: View {
                                         .cornerRadius(34.83)
                                 }
                             }
+                            Spacer(minLength: 80) //🩷
                         }
                         .sheet(isPresented: $showImagePicker) {
                             ImagePicker(image: $selectedUIImage)
                         }
                         .padding()
+                        .frame(minHeight: geo.size.height) //🩷
                     }
                 }
             }
