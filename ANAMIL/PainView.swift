@@ -106,7 +106,8 @@ struct PainView: View {
                                 }                            }
                             
                             .padding(.horizontal)
-                            .padding(.top, 40)
+                            .padding(.top, geo.size.height > 800 ? 400 : 20)
+
 
                             Text("آلامي")
                                 .font(.system(size: 24, weight: .bold))
@@ -212,19 +213,20 @@ struct PainCardView: View {
                 card.frameColor
                     .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
                     .cornerRadius(21.79)
-
+                
                 if let customImage = card.customImage {
                     Image(uiImage: customImage)
                         .resizable()
-                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
+                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
                         .cornerRadius(21.79)
+
                 } else {
                     Image(card.imageName)
                         .resizable()
-                        .frame(width: cardWidth * 0.8, height: cardWidth * 0.8)// 🌸
+                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)
                         .cornerRadius(21.79)
-                        .padding(.top, card.imageTopPadding)
                 }
+
 
                 Image(card.iconName)
                     .resizable()
@@ -349,4 +351,10 @@ struct PainUserCardView: View {
             )
         }
     }
+}
+
+#Preview {
+    PainView(categoryID: CategoryIDs.pain)
+        .environmentObject(CloudKitManager())
+        .environmentObject(VoiceRecorderManager())
 }

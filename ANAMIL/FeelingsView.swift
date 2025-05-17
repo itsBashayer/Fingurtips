@@ -112,7 +112,8 @@ struct FeelingsView: View {
                                 }                            }
                             
                             .padding(.horizontal)
-                            .padding(.top, 40)
+                            .padding(.top, geo.size.height > 800 ? 400 : 20)
+
 
                             Text("مشاعري")
                                 .font(.system(size: 24, weight: .bold))
@@ -226,9 +227,8 @@ struct FeelingCardView: View {
                 } else {
                     Image(card.imageName)
                         .resizable()
-                        .frame(width: cardWidth * 0.8, height: cardWidth * 0.8)// 🌸
+                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
                         .cornerRadius(21.79)
-                        .padding(.top, card.imageTopPadding)
                 }
 
                 Image(card.iconName)

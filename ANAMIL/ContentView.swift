@@ -102,7 +102,9 @@ struct ContentView: View {
                                         .cornerRadius(25.52)
                                 }                            }
                             .padding(.horizontal)
-                            .padding(.top, 30)
+                            .padding(.top, geo.size.height > 800 ? 400 : 20)
+
+                            
 
                             VStack(alignment: .trailing, spacing: 16) {
                                 VStack(alignment: .trailing, spacing: 8) {
@@ -304,10 +306,7 @@ struct CardButtonView: View {
                         .resizable()
                         .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
                         .cornerRadius(21.79)
-//                        .resizable()
-////                        .scaledToFit()
-//                        .frame(width: cardWidth * 0.8, height: cardWidth * 0.8)// 🌸
-//                        .padding(.top, card.imageTopPadding)
+
                 }
 
                 Image(card.iconName)

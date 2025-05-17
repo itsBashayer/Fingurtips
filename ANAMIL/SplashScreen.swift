@@ -1,4 +1,9 @@
 
+//  ANAMIL
+//
+//  Created by BASHAER AZIZ on 29/10/1446 AH.
+//
+
 import SwiftUI
 
 struct SplashScreen: View {

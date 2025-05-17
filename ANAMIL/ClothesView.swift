@@ -107,7 +107,8 @@ struct ClothesView: View {
                                 }                            }
                             
                             .padding(.horizontal)
-                            .padding(.top, 40)
+                            .padding(.top, geo.size.height > 800 ? 400 : 20)
+
 
                             VStack(alignment: .trailing, spacing: 8) {
                                 Text("ملابسي")
@@ -225,9 +226,7 @@ struct ClothesCardView: View {
                 } else {
                     Image(card.imageName)
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: cardWidth * 0.8, height: cardWidth * 0.8)// 🌸
-                        .padding(.top, card.imageTopPadding)
+                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
                 }
 
                 Image(card.iconName)

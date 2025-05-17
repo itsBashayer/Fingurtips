@@ -34,7 +34,16 @@ struct EditCardView: View {
         self.categoryColor = card.wrappedValue.strokeColor
         _selectedColor = State(initialValue: card.wrappedValue.strokeColor)
         _listName = State(initialValue: card.wrappedValue.title)
-        _selectedUIImage = State(initialValue: UIImage(named: card.wrappedValue.imageName))
+        let key = card.wrappedValue.recordID.recordName
+        if let imagePath = UserDefaults.standard.string(forKey: "imagePath-\(key)"),
+           let data = try? Data(contentsOf: URL(fileURLWithPath: imagePath)),
+           let uiImage = UIImage(data: data) {
+            _selectedUIImage = State(initialValue: uiImage)
+            
+        } else {
+            _selectedUIImage = State(initialValue: UIImage(named: card.wrappedValue.imageName)) // ❌ fallback
+        }
+
     }
 
     var body: some View {

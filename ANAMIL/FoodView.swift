@@ -106,8 +106,12 @@ struct FoodView: View {
                                 }                            }
                             
                             .padding(.horizontal)
-                            .padding(.top, 40)
+                            .padding(.top, geo.size.height > 800 ? 400 : 20)
 
+                          //  .padding(.top, UIScreen.main.bounds.height > 800 ? 400 : 20) //\
+                    
+                            
+                            //.padding(.top, UIScreen.main.bounds.height > 800 ? 50 : 400)
                             Text("أكلي")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
@@ -218,9 +222,7 @@ struct FoodCardView: View {
                 } else {
                     Image(card.imageName)
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: cardWidth * 0.8, height: cardWidth * 0.8)// 🌸
-                        .padding(.top, card.imageTopPadding)
+                        .frame(width: cardWidth * 0.9, height: cardWidth * 0.9)// 🌸
                 }
 
                 Image(card.iconName)

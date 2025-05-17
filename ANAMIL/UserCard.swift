@@ -1,9 +1,3 @@
-//
-//  UserListItem.swift
-//  AnamelDemo
-//
-//  Created by Fatimah Alqarni on 06/05/2025.
-//
 
 import CloudKit
 import SwiftUI
