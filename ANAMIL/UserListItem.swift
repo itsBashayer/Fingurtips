@@ -14,13 +14,17 @@ class CloudKitManager: ObservableObject {
     @Published var lists: [UserListItem] = []
 
     let container = CKContainer.default()
-    
-    let database = CKContainer.default().publicCloudDatabase
+    //
+    // ✅ Using private database instead of public
+      var privateDatabase1: CKDatabase {
+          CKContainer.default().privateCloudDatabase
+      }
 
     func fetchLists() {
         let query = CKQuery(recordType: "UserList", predicate: NSPredicate(value: true))
 
-        database.perform(query, inZoneWith: nil) { records, error in
+        //
+        privateDatabase1.perform(query, inZoneWith: nil) { records, error in
             DispatchQueue.main.async {
                 let sortedRecords = records?.sorted {
                     let date1 = $0["createdAt"] as? Date ?? Date.distantPast
@@ -56,8 +60,8 @@ class CloudKitManager: ObservableObject {
         if let image = image, let url = image.saveToTemporaryLocation() {
             record["image"] = CKAsset(fileURL: url)
         }
-
-        database.save(record) { savedRecord, error in
+//
+        privateDatabase1.save(record) { savedRecord, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ Error saving record: \(error.localizedDescription)")
@@ -91,9 +95,9 @@ class CloudKitManager: ObservableObject {
             }
         }
     }
-    
+    //
     func updateList(id: CKRecord.ID, title: String, color: Color, image: UIImage?) {
-        database.fetch(withRecordID: id) { record, error in
+        privateDatabase1.fetch(withRecordID: id) { record, error in
             guard let record = record, error == nil else {
                 print("❌ Error fetching record for update: \(error?.localizedDescription ?? "")")
                 return
@@ -106,7 +110,7 @@ class CloudKitManager: ObservableObject {
                 record["image"] = CKAsset(fileURL: url)
             }
 
-            self.database.save(record) { savedRecord, error in
+            self.privateDatabase1.save(record) { savedRecord, error in
                 DispatchQueue.main.async {
                     if let error = error {
                         print("❌ Failed to update: \(error.localizedDescription)")
@@ -120,7 +124,7 @@ class CloudKitManager: ObservableObject {
     }
     
     func deleteList(id: CKRecord.ID) {
-        database.delete(withRecordID: id) { deletedID, error in
+        privateDatabase1.delete(withRecordID: id) { deletedID, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ فشل في الحذف: \(error.localizedDescription)")

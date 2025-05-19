@@ -299,7 +299,7 @@ struct EditCardView: View {
 
                         if let recordID = recordID {
                             Button {
-                                cloudKitManager.publicDatabase.delete(withRecordID: recordID) { _, error in
+                                cloudKitManager.privateDatabase.delete(withRecordID: recordID) { _, error in
                                     DispatchQueue.main.async {
                                         if let error = error {
                                             print("❌ فشل في الحذف: \(error.localizedDescription)")

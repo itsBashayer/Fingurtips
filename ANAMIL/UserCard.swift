@@ -12,8 +12,9 @@ struct UserCard: Identifiable {
 
 extension CloudKitManager {
     
-    var publicDatabase: CKDatabase {
-        CKContainer.default().publicCloudDatabase
+  
+    var privateDatabase: CKDatabase {
+        CKContainer.default().privateCloudDatabase
     }
 
     func saveCard(title: String, image: UIImage?, audioURL: URL?, parentListID: CKRecord.ID) {
@@ -32,7 +33,7 @@ extension CloudKitManager {
             cardRecord["voiceNote"] = CKAsset(fileURL: audioURL)
         }
 
-        publicDatabase.save(cardRecord) { record, error in
+        privateDatabase.save(cardRecord) { record, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ Failed to save card: \(error.localizedDescription)")
@@ -48,7 +49,7 @@ extension CloudKitManager {
         let predicate = NSPredicate(format: "parentList == %@", reference)
         let query = CKQuery(recordType: "UserCard", predicate: predicate)
 
-        publicDatabase.perform(query, inZoneWith: nil) { records, error in
+        privateDatabase.perform(query, inZoneWith: nil) { records, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ Error fetching cards: \(error.localizedDescription)")
@@ -116,7 +117,7 @@ extension CloudKitManager {
     
     // new
         func updateCard(recordID: CKRecord.ID, newTitle: String?, newImage: UIImage?, newAudioURL: URL?) {
-            publicDatabase.fetch(withRecordID: recordID) { record, error in
+            privateDatabase.fetch(withRecordID: recordID) { record, error in
                 guard let record = record, error == nil else {
                     print("❌ Error fetching record: \(error?.localizedDescription ?? "")")
                     return
@@ -151,7 +152,7 @@ extension CloudKitManager {
                 }
 
 
-                self.publicDatabase.save(record) { _, error in
+                self.privateDatabase.save(record) { _, error in
                     DispatchQueue.main.async {
                         if let error = error {
                             print("❌ Save failed: \(error.localizedDescription)")
