@@ -1,5 +1,6 @@
 
 
+
 import SwiftUI
 import PhotosUI
 import CloudKit
@@ -176,47 +177,110 @@ struct EditCardView: View {
                         }
                         .padding(.horizontal)
 
+//                        Button {
+//                            card.title = listName
+//                            card.strokeColor = selectedColor
+//
+//                            let key = card.recordID.recordName
+//                            UserDefaults.standard.set(listName, forKey: "title-\(key)")
+//
+//                            if let image = selectedUIImage, let imageData = image.pngData() {
+//                                let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
+//                                try? imageData.write(to: url)
+//                                UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
+//                                card.customImage = image
+//                            }
+//
+//                            let audioURL = recorder.recordingUrl
+//                            if FileManager.default.fileExists(atPath: audioURL.path) {
+//                                let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
+//                                try? FileManager.default.removeItem(at: audioDest)
+//                                try? FileManager.default.copyItem(at: audioURL, to: audioDest)
+//                                UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
+//                                card.audioURL = audioDest
+//                            }
+//
+//                            if let recordID = recordID {
+//                                cloudKitManager.updateCard(
+//                                    recordID: recordID,
+//                                    newTitle: listName,
+//                                    newImage: selectedUIImage,
+//                                    newAudioURL: recorder.recordingUrl
+//                                )
+//                            }
+//
+//                            dismiss()
+//                        } label: {
+//                            Text("تعديل البطاقة")
+//                                .font(.headline)
+//                                .frame(width: buttonWidth, height: 47.34)
+//                                .background(Color.blue22)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(34.83)
+//                        }
+                        
+                        //new
                         Button {
-                            card.title = listName
-                            card.strokeColor = selectedColor
+                                                    card.title = listName
+                                                    card.strokeColor = selectedColor
 
-                            let key = card.recordID.recordName
-                            UserDefaults.standard.set(listName, forKey: "title-\(key)")
+                                                    let key = card.recordID.recordName
+                                                    UserDefaults.standard.set(listName, forKey: "title-\(key)")
 
-                            if let image = selectedUIImage, let imageData = image.pngData() {
-                                let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
-                                try? imageData.write(to: url)
-                                UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
-                                card.customImage = image
-                            }
+                                                    if let image = selectedUIImage, let imageData = image.pngData() {
+                                                        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
+                                                        try? imageData.write(to: url)
+                                                        UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
+                                                        card.customImage = image
+                                                    }
 
-                            let audioURL = recorder.recordingUrl
-                            if FileManager.default.fileExists(atPath: audioURL.path) {
-                                let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
-                                try? FileManager.default.removeItem(at: audioDest)
-                                try? FileManager.default.copyItem(at: audioURL, to: audioDest)
-                                UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
-                                card.audioURL = audioDest
-                            }
+                                                    let audioURL = recorder.recordingUrl
+                                                    if FileManager.default.fileExists(atPath: audioURL.path) {
+                                                        let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
+                                                        try? FileManager.default.removeItem(at: audioDest)
+                                                        try? FileManager.default.copyItem(at: audioURL, to: audioDest)
+                                                        UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
+                                                        card.audioURL = audioDest
+                                                    }
+                                                    // new
+                                                    // تعديل الحفظ
+                                                    print("🔁 Updating card:")
+                                                    print("📝 Title: \(listName)")
+                                                    print("🖼 Image: \(selectedUIImage != nil ? "Yes" : "No")")
+                                                    print("🎙 Audio: \(FileManager.default.fileExists(atPath: recorder.recordingUrl.path) ? "Yes" : "No")")
 
-                            if let recordID = recordID {
-                                cloudKitManager.updateCard(
-                                    recordID: recordID,
-                                    newTitle: listName,
-                                    newImage: selectedUIImage,
-                                    newAudioURL: recorder.recordingUrl
-                                )
-                            }
 
-                            dismiss()
-                        } label: {
-                            Text("تعديل البطاقة")
-                                .font(.headline)
-                                .frame(width: buttonWidth, height: 47.34)
-                                .background(Color.blue22)
-                                .foregroundColor(.white)
-                                .cornerRadius(34.83)
-                        }
+                                                    if let recordID = recordID {
+                                                        cloudKitManager.updateCard(
+                                                            recordID: recordID,
+                                                            newTitle: listName,
+                                                            newImage: selectedUIImage,
+                                                            newAudioURL: recorder.recordingUrl
+                                                        )
+                                                        
+                                                        //🌱
+                                                        //cloudKitManager.fetchCards(for: card.categoryID) { _ in }
+                                                        
+                                                        // ✅ نحدث الكروت، وننتظر النتيجة قبل الإغلاق
+                                                        cloudKitManager.fetchCards(for: card.categoryID) { newCards in
+                                                            DispatchQueue.main.async {
+                                                                // ممكن تحدث الـ userCards هنا إذا كانت مرتبطة بـ @Binding أو @EnvironmentObject
+                                                                print("✅ Cards reloaded successfully after update.")
+                                                                dismiss()
+                                                            }
+                                                        }
+                                                    }
+
+                                                    dismiss()
+                                                    
+                                                } label: {
+                                                    Text("تعديل البطاقة")
+                                                        .font(.headline)
+                                                        .frame(width: buttonWidth, height: 47.34)
+                                                        .background(Color.blue22)
+                                                        .foregroundColor(.white)
+                                                        .cornerRadius(34.83)
+                                                }
 
                         Button {
                             dismiss()

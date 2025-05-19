@@ -14,6 +14,7 @@ class CloudKitManager: ObservableObject {
     @Published var lists: [UserListItem] = []
 
     let container = CKContainer.default()
+    
     let database = CKContainer.default().publicCloudDatabase
 
     func fetchLists() {

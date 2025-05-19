@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import CloudKit
 import LocalAuthentication
@@ -167,6 +165,15 @@ struct CategoryView: View {
                 self.userCards = cards
             }
         }
+        //new
+        .onChange(of: isEditing) { newValue in
+                    if newValue == false {
+                        print("🔄 رجعنا من التعديل، جاري تحديث الكروت...")
+                        cloudKitManager.fetchCards(for: categoryID) { cards in
+                            self.userCards = cards
+                        }
+                    }
+                }
     }
 
     private func addCardButton(cardWidth: CGFloat) -> some View {

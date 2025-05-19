@@ -1,4 +1,3 @@
-
 import CloudKit
 import SwiftUI
 
@@ -12,6 +11,7 @@ struct UserCard: Identifiable {
 }
 
 extension CloudKitManager {
+    
     var publicDatabase: CKDatabase {
         CKContainer.default().publicCloudDatabase
     }
@@ -83,35 +83,84 @@ extension CloudKitManager {
     }
     
     
-    func updateCard(recordID: CKRecord.ID, newTitle: String, newImage: UIImage?, newAudioURL: URL?) {
-        publicDatabase.fetch(withRecordID: recordID) { record, error in
-            guard let record = record, error == nil else {
-                print("❌ Error fetching record: \(error?.localizedDescription ?? "")")
-                return
-            }
+//    func updateCard(recordID: CKRecord.ID, newTitle: String, newImage: UIImage?, newAudioURL: URL?) {
+//        publicDatabase.fetch(withRecordID: recordID) { record, error in
+//            guard let record = record, error == nil else {
+//                print("❌ Error fetching record: \(error?.localizedDescription ?? "")")
+//                return
+//            }
+//
+//            record["title"] = newTitle
+//
+//            if let image = newImage, let imageData = image.jpegData(compressionQuality: 0.8) {
+//                let imageURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".jpg")
+//                try? imageData.write(to: imageURL)
+//                record["image"] = CKAsset(fileURL: imageURL)
+//            }
+//
+//            if let audioURL = newAudioURL {
+//                record["voiceNote"] = CKAsset(fileURL: audioURL)
+//            }
+//
+//            self.publicDatabase.save(record) { _, error in
+//                DispatchQueue.main.async {
+//                    if let error = error {
+//                        print("❌ Failed to update record: \(error.localizedDescription)")
+//                    } else {
+//                        print("✅ Record updated successfully")
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+    // new
+        func updateCard(recordID: CKRecord.ID, newTitle: String?, newImage: UIImage?, newAudioURL: URL?) {
+            publicDatabase.fetch(withRecordID: recordID) { record, error in
+                guard let record = record, error == nil else {
+                    print("❌ Error fetching record: \(error?.localizedDescription ?? "")")
+                    return
+                }
 
-            record["title"] = newTitle
+                print("🔁 Updating record:")
+                print("📝 Title: \(newTitle ?? "No Change")")
+                print("🖼 Image: \(newImage != nil ? "Provided" : "No Change")")
+                print("🎙 Audio: \(newAudioURL != nil ? "Provided" : "No Change")")
 
-            if let image = newImage, let imageData = image.jpegData(compressionQuality: 0.8) {
-                let imageURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".jpg")
-                try? imageData.write(to: imageURL)
-                record["image"] = CKAsset(fileURL: imageURL)
-            }
+                if let title = newTitle {
+                    record["title"] = title
+                }
 
-            if let audioURL = newAudioURL {
-                record["voiceNote"] = CKAsset(fileURL: audioURL)
-            }
+                if let image = newImage, let imageData = image.jpegData(compressionQuality: 0.8) {
+                    let imageURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".jpg")
+                    do {
+                        try imageData.write(to: imageURL)
+                        record["image"] = CKAsset(fileURL: imageURL)
+                    } catch {
+                        print("❌ Failed to write image to disk: \(error.localizedDescription)")
+                    }
+                }
 
-            self.publicDatabase.save(record) { _, error in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        print("❌ Failed to update record: \(error.localizedDescription)")
+                if let audioURL = newAudioURL {
+                    if FileManager.default.fileExists(atPath: audioURL.path) {
+                        print("🎙 Audio file exists ✅")
+                        record["voiceNote"] = CKAsset(fileURL: audioURL)
                     } else {
-                        print("✅ Record updated successfully")
+                        print("❌ Audio file doesn't exist at: \(audioURL.path)")
+                    }
+                }
+
+
+                self.publicDatabase.save(record) { _, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            print("❌ Save failed: \(error.localizedDescription)")
+                        } else {
+                            print("✅ Card updated successfully.")
+                        }
                     }
                 }
             }
         }
-    }
 
 }
