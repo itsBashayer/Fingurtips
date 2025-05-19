@@ -4,6 +4,8 @@
 //  Created by BASHAER AZIZ on 29/10/1446 AH.
 //
 
+
+
 import SwiftUI
 
 struct SplashScreen: View {
@@ -28,14 +30,14 @@ struct SplashScreen: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 400.14, height: 500)
-                    .offset(x: 0, y: -100)
+                    .offset(x: 0, y: 10)
 
                 if showTouchImage {
                     Image("TouchImage")
                         .resizable()
                         .scaledToFit()
                         .frame(width: touchImageSize.width, height: touchImageSize.height)
-                        .offset(x: targetOffset - 55, y: -190)
+                        .offset(x: targetOffset - 80, y: -90)
                         .transition(.opacity)
                         .animation(.easeIn, value: showTouchImage)
                 }
@@ -44,7 +46,7 @@ struct SplashScreen: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 500)
-                    .offset(x: rightImageOffset, y: -50)
+                    .offset(x: rightImageOffset, y: 1)
             }
         }
         .onAppear {

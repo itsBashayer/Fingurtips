@@ -290,7 +290,7 @@ struct CardButtonView: View {
         VStack(spacing: 8) {
             ZStack(alignment: .topLeading) {
 
-                card.frameColor
+                card.frameColor.opacity(0.5) // new
                     .frame(width: cardWidth * 0.9, height: cardWidth * 0.9) // 🌸
                     .cornerRadius(21.79)
 
@@ -309,6 +309,8 @@ struct CardButtonView: View {
 
                 Image(card.iconName)
                     .resizable()
+                    .renderingMode(.template) //New
+                    .foregroundColor(card.frameColor) // new
                     .frame(width: 20, height: 20)
                     .padding(14)
 

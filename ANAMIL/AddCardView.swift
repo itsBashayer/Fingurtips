@@ -1,4 +1,3 @@
-
 import SwiftUI
 import PhotosUI
 import CloudKit
@@ -13,7 +12,7 @@ struct AddCardView: View {
     @State private var selectedUIImage: UIImage?
     @EnvironmentObject var cloudKitManager: CloudKitManager
     @Environment(\.dismiss) private var dismiss
-    @State private var showColorPicker = false
+    @State private var showAlert = false // Alert state
 
     @ObservedObject private var recorder = VoiceRecorderManager()
 
@@ -144,6 +143,12 @@ struct AddCardView: View {
                             }
 
                             Button(action: {
+                                // Validation for image selection
+                                if selectedUIImage == nil {
+                                    showAlert = true
+                                    return
+                                }
+
                                 let fileManager = FileManager.default
                                 let hasAudio = fileManager.fileExists(atPath: recorder.recordingUrl.path)
                                 cloudKitManager.saveCard(
@@ -162,6 +167,9 @@ struct AddCardView: View {
                                     .cornerRadius(34.83)
                             }
                             .padding(.horizontal)
+                            .alert(isPresented: $showAlert) {
+                                Alert(title: Text("خطأ"), message: Text("يرجى اختيار صورة قبل الحفظ."), dismissButton: .default(Text("OK")))
+                            }
 
                             Button(action: {
                                 dismiss()
@@ -178,15 +186,14 @@ struct AddCardView: View {
                                     .cornerRadius(34.83)
                             }
 
-                            Spacer(minLength: 80) //🩷
+                            Spacer(minLength: 80)
                         }
                         .sheet(isPresented: $showImagePicker) {
-                            ImagePicker(image: $selectedUIImage)
+                            ImagePicker(image: $selectedUIImage) // Ensure this matches the correct name
                         }
                         .padding()
-                        .frame(minHeight: geo.size.height) //🩷
+                        .frame(minHeight: geo.size.height)
                     }
-
                 }
             }
         }

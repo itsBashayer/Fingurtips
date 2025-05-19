@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import PhotosUI
 
@@ -17,6 +15,8 @@ struct AddListView: View {
         Color(red: 0.8, green: 1.0, blue: 0.8),
         Color(red: 0.8, green: 0.8, blue: 1.0)
     ]
+    @State private var showAlert = false // Alert state
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationStack {
@@ -125,6 +125,23 @@ struct AddListView: View {
                             }
 
                             Button(action: {
+                                // Validation for image selection, name, and color
+                                if selectedUIImage == nil {
+                                    alertMessage = "يرجى اختيار صورة قبل الحفظ."
+                                    showAlert = true
+                                    return
+                                }
+                                if listName.isEmpty {
+                                    alertMessage = "يرجى إدخال اسم القائمة."
+                                    showAlert = true
+                                    return
+                                }
+                                if selectedColor == .blue { // Change this condition if you want a specific default color
+                                    alertMessage = "يرجى اختيار لون القائمة."
+                                    showAlert = true
+                                    return
+                                }
+
                                 cloudKitManager.saveList(title: listName, color: selectedColor, image: selectedUIImage)
                                 dismiss()
                             }) {
@@ -136,6 +153,9 @@ struct AddListView: View {
                                     .cornerRadius(34.83)
                             }
                             .padding(.horizontal)
+                            .alert(isPresented: $showAlert) {
+                                Alert(title: Text("خطأ"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                            }
 
                             Button(action: {
                                 dismiss()
