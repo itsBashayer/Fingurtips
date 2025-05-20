@@ -58,18 +58,17 @@ struct EditListView: View {
                         .scaledToFill()
                         .ignoresSafeArea()
 
-                    // عدلت هذا كامل🩷
                     ScrollView {
                         VStack(spacing: 20) {
                             HStack {
-                                Spacer()
-                                Text("اسم القائمة")
+                                Text("List Name")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .padding(.top, 30)
+                                Spacer()
                             }
 
-                            TextField("اسم القائمة", text: $listName)
+                            TextField("List Name", text: $listName)
                                 .padding()
                                 .frame(height: 48)
                                 .background(
@@ -77,14 +76,14 @@ struct EditListView: View {
                                         .stroke(Color.blue22, lineWidth: 1.5)
                                         .background(RoundedRectangle(cornerRadius: 30).fill(.white))
                                 )
-                                .multilineTextAlignment(.trailing)
+                                .multilineTextAlignment(.leading) // Left alignment
                                 .padding(.horizontal)
 
                             HStack {
-                                Spacer()
-                                Text("اللون")
+                                Text("Color")
                                     .font(.title)
                                     .fontWeight(.bold)
+                                Spacer()
                             }
 
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -114,7 +113,7 @@ struct EditListView: View {
                             }
 
                             if showColorPicker {
-                                ColorPicker("اختر لونًا", selection: $customColor)
+                                ColorPicker("Select a Color", selection: $customColor)
                                     .padding(.horizontal)
                                     .onChange(of: customColor) { newColor in
                                         userColors.append(newColor)
@@ -124,10 +123,10 @@ struct EditListView: View {
                             }
 
                             HStack {
-                                Spacer()
-                                Text("ارفق الصورة")
+                                Text("Attach Image")
                                     .font(.title)
                                     .fontWeight(.bold)
+                                Spacer()
                             }
 
                             Button(action: {
@@ -145,7 +144,7 @@ struct EditListView: View {
                             if let uiImage = selectedUIImage {
                                 CardPreviewView(
                                     image: Image(uiImage: uiImage),
-                                    title: listName.isEmpty ? "بدون اسم" : listName,
+                                    title: listName.isEmpty ? "No Name" : listName,
                                     frameColor: selectedColor.opacity(0.5),
                                     strokeColor: selectedColor
                                 )
@@ -173,7 +172,7 @@ struct EditListView: View {
                                 }
                                 dismiss()
                             }) {
-                                Text("تعديل التصنيف")
+                                Text("Edit Category")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.blue22)
@@ -185,7 +184,7 @@ struct EditListView: View {
                             Button(action: {
                                 dismiss()
                             }) {
-                                Text("إلغاء")
+                                Text("Cancel")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.white)
@@ -202,7 +201,7 @@ struct EditListView: View {
                                     cloudKitManager.deleteList(id: recordID)
                                     dismiss()
                                 }) {
-                                    Text("حذف")
+                                    Text("Delete")
                                         .font(.headline)
                                         .frame(maxWidth: .infinity, minHeight: 47.34)
                                         .background(Color.white)
@@ -214,13 +213,13 @@ struct EditListView: View {
                                         .cornerRadius(34.83)
                                 }
                             }
-                            Spacer(minLength: 80) //🩷
+                            Spacer(minLength: 80)
                         }
                         .sheet(isPresented: $showImagePicker) {
                             ImagePicker(image: $selectedUIImage)
                         }
                         .padding()
-                        .frame(minHeight: geo.size.height) //🩷
+                        .frame(minHeight: geo.size.height)
                     }
                 }
             }

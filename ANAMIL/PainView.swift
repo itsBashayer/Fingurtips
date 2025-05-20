@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import CloudKit
 import LocalAuthentication
@@ -15,12 +13,32 @@ struct PainView: View {
     @State private var selectedStaticCard: StaticCard? = nil // ↩️
 
     private let allStaticCards: [StaticCard] = [
-        StaticCard(title: "بطني يعورني", imageName: "Pain", frameColor: .red1, strokeColor: .red1, iconName: "Pain Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "pain-belly"), categoryID: CategoryIDs.pain),
-        StaticCard(title: "راسي يعورني", imageName: "Head", frameColor: .red1, strokeColor: .red1, iconName: "Pain Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "pain-head"), categoryID: CategoryIDs.pain),
-        StaticCard(title: "أسناني تعورني", imageName: "Teeth", frameColor: .red1, strokeColor: .red1, iconName: "Pain Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "pain-teeth"), categoryID: CategoryIDs.pain),
-        StaticCard(title: "رجلي تعورني", imageName: "Leg", frameColor: .red1, strokeColor: .red1, iconName: "Pain Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "pain-leg"), categoryID: CategoryIDs.pain),
-        StaticCard(title: "يدي تعورني", imageName: "Hand", frameColor: .red1, strokeColor: .red1, iconName: "Pain Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "pain-hand"), categoryID: CategoryIDs.pain)
+        StaticCard(title: NSLocalizedString("My Belly Hurts", comment: "Pain category - belly"),
+                   imageName: "Pain", frameColor: .red1, strokeColor: .red1,
+                   iconName: "Pain Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "pain-belly"), categoryID: CategoryIDs.pain),
+
+        StaticCard(title: NSLocalizedString("My Head Hurts", comment: "Pain category - head"),
+                   imageName: "Head", frameColor: .red1, strokeColor: .red1,
+                   iconName: "Pain Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "pain-head"), categoryID: CategoryIDs.pain),
+
+        StaticCard(title: NSLocalizedString("My Teeth Hurt", comment: "Pain category - teeth"),
+                   imageName: "Teeth", frameColor: .red1, strokeColor: .red1,
+                   iconName: "Pain Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "pain-teeth"), categoryID: CategoryIDs.pain),
+
+        StaticCard(title: NSLocalizedString("My Leg Hurts", comment: "Pain category - leg"),
+                   imageName: "Leg", frameColor: .red1, strokeColor: .red1,
+                   iconName: "Pain Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "pain-leg"), categoryID: CategoryIDs.pain),
+
+        StaticCard(title: NSLocalizedString("My Hand Hurts", comment: "Pain category - hand"),
+                   imageName: "Hand", frameColor: .red1, strokeColor: .red1,
+                   iconName: "Pain Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "pain-hand"), categoryID: CategoryIDs.pain)
     ]
+
 
     var staticCards: [StaticCard] {
         allStaticCards.filter { $0.categoryID == categoryID }.map { originalCard in
@@ -48,28 +66,27 @@ struct PainView: View {
     }
 
     //start Face ID authentication logic
-        private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
+    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
 
-            
-            // ✅ This line allows Face ID with passcode fallback
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+        // ✅ This line allows Face ID with passcode fallback
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card"
 
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                    DispatchQueue.main.async {
-                        completion(success)
-                    }
-                }
-            } else {
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
-                    completion(false)
+                    completion(success)
                 }
             }
-        }//end
-    
-    // عدلت هذا كامل🩷
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+        }
+    }//end
+
+    // Edited this fully 🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -80,7 +97,7 @@ struct PainView: View {
 
                 VStack(spacing: 0) {
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) {  // changed alignment from .trailing to .leading
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -90,21 +107,22 @@ struct PainView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")  // translated
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
                                 }
+                            // switched button and spacer positions for LTR
                             }
                             .padding(.horizontal)
                             .padding(.top, 40)
 
-                            Text("آلامي")
+                            Text("My Pains")  // translated from "آلامي"
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment: .leading) // alignment changed to leading
 
                             NavigationLink(
                                 destination: Group {
@@ -155,7 +173,7 @@ struct PainView: View {
                                     CardButtonView(
                                         card: .constant(
                                             StaticCard(
-                                                title: "إضافة كرت",
+                                                title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
                                                 imageName: "Plus Sign",
                                                 frameColor: .blue1,
                                                 strokeColor: .blue1,

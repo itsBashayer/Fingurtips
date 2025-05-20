@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>نحتاج الوصول إلى الصور لإضافة بطاقة</string>
+	<string>We need access to your photos to add a card</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>نحتاج إلى استخدام Face ID لتأكيد هويتك</string>
+	<string>We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict/>

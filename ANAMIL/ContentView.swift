@@ -4,8 +4,7 @@
 //
 //  Created by BASHAER AZIZ on 29/10/1446 AH.
 //   .padding(.top, geo.size.height > 800 ? 400 : 20)
-
-
+// LAST ONE
 
 import SwiftUI
 import CloudKit
@@ -38,34 +37,29 @@ struct ContentView: View {
     @State private var isEditing = false
     @StateObject private var cloudKitManager = CloudKitManager()
     @State private var staticCards: [StaticCard] = []
-    @State private var authPassed = false ///h
+    @State private var authPassed = false
     @State private var loadedTitle: String = ""
     @State private var loadedColor: Color = .purple1
     @State private var loadedImage: UIImage?
-    
-    //start Face ID authentication logic
-        private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
 
-            
-            // ✅ This line allows Face ID with passcode fallback
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
 
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                    DispatchQueue.main.async {
-                        completion(success)
-                    }
-                }
-            } else {
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
-                    completion(false)
+                    completion(success)
                 }
             }
-        }//end
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+        }
+    }
 
- 
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -75,8 +69,7 @@ struct ContentView: View {
 
                 VStack(spacing: 0) {
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
-                            
+                        VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -86,7 +79,7 @@ struct ContentView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
@@ -96,21 +89,16 @@ struct ContentView: View {
                             }
                             .padding(.horizontal)
                             .padding(.top, 30)
-                            //   .padding(.top, geo.size.height > 800 ? 400 : 20)
 
-                            
-                            VStack(alignment: .trailing, spacing: 8) {
-                                Text("قوائم طفلك ")
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Your Child's Lists")
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(.black)
 
-                                Text("لا تنسى تفعيل الأشعارات!")
-                                    .font(.system(size: 18))
-                                    .foregroundColor(.black)
+                            
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
-                        
                             LazyVGrid(columns: columns, spacing: 28) {
                                 ForEach($staticCards) { $card in
                                     NavigationLink(destination: destinationView(for: card).environmentObject(cloudKitManager)) {
@@ -120,8 +108,7 @@ struct ContentView: View {
 
                                 ForEach(cloudKitManager.lists) { list in
                                     NavigationLink(
-                                        destination: CategoryView(categoryID: list.id, categoryColor: list.color, categoryTitle: list.title)
-                                            .environmentObject(cloudKitManager)) {
+                                        destination: CategoryView(categoryID: list.id, categoryColor: list.color, categoryTitle: list.title).environmentObject(cloudKitManager)) {
                                         VStack(spacing: 8) {
                                             ZStack(alignment: .topTrailing) {
                                                 RoundedRectangle(cornerRadius: 21.79)
@@ -165,7 +152,6 @@ struct ContentView: View {
                                                     }
                                                 }
                                             }
-
                                             Text(list.title)
                                                 .font(.system(size: 21.78))
                                                 .fontWeight(.medium)
@@ -183,7 +169,6 @@ struct ContentView: View {
                                     }
                                 }
 
-                                
                                 Button(action: {
                                     authenticateWithFaceID { success in
                                         if success {
@@ -193,14 +178,14 @@ struct ContentView: View {
                                 }) {
                                     CardButtonView(card: .constant(
                                         StaticCard(
-                                            title: "إضافة قائمة",
+                                            title: NSLocalizedString("Add List", comment: "Title for the button to add a new List"),
                                             imageName: "Plus Sign",
                                             frameColor: .blue1,
                                             strokeColor: .darkBlue,
                                             iconName: "Adding Icon",
                                             imageTopPadding: 10,
-                                            recordID: CKRecord.ID(recordName: "إضافة قائمة"),
-                                            categoryID: CKRecord.ID(recordName: "إضافة قائمة")
+                                            recordID: CKRecord.ID(recordName: "Add List"),
+                                            categoryID: CKRecord.ID(recordName: "Add List")
                                         )
                                     ), isEditing: $isEditing, cardWidth: cardWidth)
                                 }
@@ -225,7 +210,7 @@ struct ContentView: View {
             .onAppear {
                 cloudKitManager.fetchLists()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    loadedTitle = UserDefaults.standard.string(forKey: "title-\(CategoryIDs.feelings.recordName)") ?? "المشاعر"
+                    loadedTitle = UserDefaults.standard.string(forKey: "title-\(CategoryIDs.feelings.recordName)") ?? "Feelings"
                     loadedColor = Color(hex: UserDefaults.standard.string(forKey: "color-category-feelings") ?? "#0000FF")
                     if let imageData = UserDefaults.standard.data(forKey: "image-\(CategoryIDs.feelings.recordName)"),
                        let image = UIImage(data: imageData) {
@@ -236,7 +221,6 @@ struct ContentView: View {
             }
         }
     }
-
 
     private func loadStaticCards() -> [StaticCard] {
         func loadTitle(for id: CKRecord.ID, defaultTitle: String) -> String {
@@ -256,16 +240,42 @@ struct ContentView: View {
         }
 
         return [
-            StaticCard(title: loadTitle(for: CategoryIDs.feelings, defaultTitle: "المشاعر"), imageName: "Feelings", customImage: loadImage(for: CategoryIDs.feelings), frameColor: loadFrameColor(for: CategoryIDs.feelings, defaultColor: .purple1), strokeColor: loadStrokeColor(for: CategoryIDs.feelings, defaultColor: .purple1), iconName: "Heart Icon", imageTopPadding: 32, recordID: CategoryIDs.feelings, categoryID: CategoryIDs.feelings),
-            
-            StaticCard(title: loadTitle(for: CategoryIDs.food, defaultTitle: "الأكل"), imageName: "Food", customImage: loadImage(for: CategoryIDs.food), frameColor: loadFrameColor(for: CategoryIDs.food, defaultColor: .yelow1), strokeColor: loadStrokeColor(for: CategoryIDs.food, defaultColor: .darkYellow), iconName: "Food Icon", imageTopPadding: 10, recordID: CategoryIDs.food, categoryID: CategoryIDs.food),
-            
-            StaticCard(title: loadTitle(for: CategoryIDs.games, defaultTitle: "الألعاب"), imageName: "Games1", customImage: loadImage(for: CategoryIDs.games), frameColor: loadFrameColor(for: CategoryIDs.games, defaultColor: .lavender), strokeColor: loadStrokeColor(for: CategoryIDs.games, defaultColor: .darkLavender), iconName: "Game Icon", imageTopPadding: 20, recordID: CategoryIDs.games, categoryID: CategoryIDs.games),
-            
-            StaticCard(title: loadTitle(for: CategoryIDs.clothes, defaultTitle: "الملابس"), imageName: "Cloth", customImage: loadImage(for: CategoryIDs.clothes), frameColor: loadFrameColor(for: CategoryIDs.clothes, defaultColor: .green1), strokeColor: loadStrokeColor(for: CategoryIDs.clothes, defaultColor: .darkGreen), iconName: "Cloth Icon", imageTopPadding: 20, recordID: CategoryIDs.clothes, categoryID: CategoryIDs.clothes),
-            
-            StaticCard(title: loadTitle(for: CategoryIDs.pain, defaultTitle: "ايش يعورني؟"), imageName: "Pain", customImage: loadImage(for: CategoryIDs.pain), frameColor: loadFrameColor(for: CategoryIDs.pain, defaultColor: .red1), strokeColor: loadStrokeColor(for: CategoryIDs.pain, defaultColor: .darkOrange), iconName: "Pain Icon", imageTopPadding: 32, recordID: CategoryIDs.pain, categoryID: CategoryIDs.pain)
+            StaticCard(title: loadTitle(for: CategoryIDs.feelings, defaultTitle: NSLocalizedString("Feelings", comment: "Category title - feelings")),
+                       imageName: "Feelings", customImage: loadImage(for: CategoryIDs.feelings),
+                       frameColor: loadFrameColor(for: CategoryIDs.feelings, defaultColor: .purple1),
+                       strokeColor: loadStrokeColor(for: CategoryIDs.feelings, defaultColor: .purple1),
+                       iconName: "Heart Icon", imageTopPadding: 32,
+                       recordID: CategoryIDs.feelings, categoryID: CategoryIDs.feelings),
+
+            StaticCard(title: loadTitle(for: CategoryIDs.food, defaultTitle: NSLocalizedString("Food", comment: "Category title - food")),
+                       imageName: "Food", customImage: loadImage(for: CategoryIDs.food),
+                       frameColor: loadFrameColor(for: CategoryIDs.food, defaultColor: .yelow1),
+                       strokeColor: loadStrokeColor(for: CategoryIDs.food, defaultColor: .darkYellow),
+                       iconName: "Food Icon", imageTopPadding: 10,
+                       recordID: CategoryIDs.food, categoryID: CategoryIDs.food),
+
+            StaticCard(title: loadTitle(for: CategoryIDs.games, defaultTitle: NSLocalizedString("Games", comment: "Category title - games")),
+                       imageName: "Games1", customImage: loadImage(for: CategoryIDs.games),
+                       frameColor: loadFrameColor(for: CategoryIDs.games, defaultColor: .lavender),
+                       strokeColor: loadStrokeColor(for: CategoryIDs.games, defaultColor: .darkLavender),
+                       iconName: "Game Icon", imageTopPadding: 20,
+                       recordID: CategoryIDs.games, categoryID: CategoryIDs.games),
+
+            StaticCard(title: loadTitle(for: CategoryIDs.clothes, defaultTitle: NSLocalizedString("Clothes", comment: "Category title - clothes")),
+                       imageName: "Cloth", customImage: loadImage(for: CategoryIDs.clothes),
+                       frameColor: loadFrameColor(for: CategoryIDs.clothes, defaultColor: .green1),
+                       strokeColor: loadStrokeColor(for: CategoryIDs.clothes, defaultColor: .darkGreen),
+                       iconName: "Cloth Icon", imageTopPadding: 20,
+                       recordID: CategoryIDs.clothes, categoryID: CategoryIDs.clothes),
+
+            StaticCard(title: loadTitle(for: CategoryIDs.pain, defaultTitle: NSLocalizedString("What Hurts Me?", comment: "Category title - pain")),
+                       imageName: "Pain", customImage: loadImage(for: CategoryIDs.pain),
+                       frameColor: loadFrameColor(for: CategoryIDs.pain, defaultColor: .red1),
+                       strokeColor: loadStrokeColor(for: CategoryIDs.pain, defaultColor: .darkOrange),
+                       iconName: "Pain Icon", imageTopPadding: 32,
+                       recordID: CategoryIDs.pain, categoryID: CategoryIDs.pain)
         ]
+
     }
 
     @ViewBuilder
@@ -276,7 +286,7 @@ struct ContentView: View {
         case "category-feelings": FeelingsView(categoryID: card.recordID)
         case "category-games": GamesView(categoryID: card.recordID)
         case "category-pain": PainView(categoryID: card.recordID)
-        default: Text("قائمة غير معروفة")
+        default: Text("Unknown List")
         }
     }
 }

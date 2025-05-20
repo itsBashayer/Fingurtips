@@ -1,6 +1,3 @@
-
-
-
 import SwiftUI
 import PhotosUI
 import CloudKit
@@ -40,11 +37,9 @@ struct EditCardView: View {
            let data = try? Data(contentsOf: URL(fileURLWithPath: imagePath)),
            let uiImage = UIImage(data: data) {
             _selectedUIImage = State(initialValue: uiImage)
-            
         } else {
             _selectedUIImage = State(initialValue: UIImage(named: card.wrappedValue.imageName)) // ❌ fallback
         }
-
     }
 
     var body: some View {
@@ -58,18 +53,17 @@ struct EditCardView: View {
                     .scaledToFill()
                     .ignoresSafeArea()
 
-                // عدلت هذا كامل🩷
                 ScrollView {
                     VStack(spacing: 20) {
                         HStack {
-                            Spacer()
-                            Text("اسم الكرت")
+                            Text("Card Name")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding(.top, 30)
+                            Spacer()
                         }
 
-                        TextField("اسم الكرت", text: $listName)
+                        TextField("Card Name", text: $listName)
                             .padding(.horizontal)
                             .frame(height: 47.65)
                             .frame(maxWidth: buttonWidth)
@@ -78,14 +72,14 @@ struct EditCardView: View {
                                     .stroke(Color.blue22, lineWidth: 1.5)
                                     .background(RoundedRectangle(cornerRadius: 8740.54).fill(Color(.white)))
                             )
-                            .multilineTextAlignment(.trailing)
+                         //   .multilineTextAlignment(.leading) // Left alignment
 
                         HStack {
-                            Spacer()
-                            Text("ارفق الصورة")
+                            Text("Attach Image")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding(.top, 30)
+                            Spacer()
                         }
 
                         Button {
@@ -108,7 +102,7 @@ struct EditCardView: View {
                         if let uiImage = selectedUIImage {
                             CardPreviewView2(
                                 image: Image(uiImage: uiImage),
-                                title: listName.isEmpty ? "بدون اسم" : listName,
+                                title: listName.isEmpty ? "No Name" : listName,
                                 frameColor: selectedColor.opacity(0.5),
                                 strokeColor: selectedColor
                             )
@@ -118,11 +112,11 @@ struct EditCardView: View {
                         }
 
                         HStack {
-                            Spacer()
-                            Text("الرجاء تسجيل صوتك")
+                            Text("Please Record Your Voice")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding(.top, 30)
+                            Spacer()
                         }
 
                         HStack(spacing: 20) {
@@ -177,115 +171,64 @@ struct EditCardView: View {
                         }
                         .padding(.horizontal)
 
-//                        Button {
-//                            card.title = listName
-//                            card.strokeColor = selectedColor
-//
-//                            let key = card.recordID.recordName
-//                            UserDefaults.standard.set(listName, forKey: "title-\(key)")
-//
-//                            if let image = selectedUIImage, let imageData = image.pngData() {
-//                                let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
-//                                try? imageData.write(to: url)
-//                                UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
-//                                card.customImage = image
-//                            }
-//
-//                            let audioURL = recorder.recordingUrl
-//                            if FileManager.default.fileExists(atPath: audioURL.path) {
-//                                let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
-//                                try? FileManager.default.removeItem(at: audioDest)
-//                                try? FileManager.default.copyItem(at: audioURL, to: audioDest)
-//                                UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
-//                                card.audioURL = audioDest
-//                            }
-//
-//                            if let recordID = recordID {
-//                                cloudKitManager.updateCard(
-//                                    recordID: recordID,
-//                                    newTitle: listName,
-//                                    newImage: selectedUIImage,
-//                                    newAudioURL: recorder.recordingUrl
-//                                )
-//                            }
-//
-//                            dismiss()
-//                        } label: {
-//                            Text("تعديل البطاقة")
-//                                .font(.headline)
-//                                .frame(width: buttonWidth, height: 47.34)
-//                                .background(Color.blue22)
-//                                .foregroundColor(.white)
-//                                .cornerRadius(34.83)
-//                        }
-                        
-                        //new
                         Button {
-                                                    card.title = listName
-                                                    card.strokeColor = selectedColor
+                            card.title = listName
+                            card.strokeColor = selectedColor
 
-                                                    let key = card.recordID.recordName
-                                                    UserDefaults.standard.set(listName, forKey: "title-\(key)")
+                            let key = card.recordID.recordName
+                            UserDefaults.standard.set(listName, forKey: "title-\(key)")
 
-                                                    if let image = selectedUIImage, let imageData = image.pngData() {
-                                                        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
-                                                        try? imageData.write(to: url)
-                                                        UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
-                                                        card.customImage = image
-                                                    }
+                            if let image = selectedUIImage, let imageData = image.pngData() {
+                                let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).jpg")
+                                try? imageData.write(to: url)
+                                UserDefaults.standard.set(url.path, forKey: "imagePath-\(key)")
+                                card.customImage = image
+                            }
 
-                                                    let audioURL = recorder.recordingUrl
-                                                    if FileManager.default.fileExists(atPath: audioURL.path) {
-                                                        let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
-                                                        try? FileManager.default.removeItem(at: audioDest)
-                                                        try? FileManager.default.copyItem(at: audioURL, to: audioDest)
-                                                        UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
-                                                        card.audioURL = audioDest
-                                                    }
-                                                    // new
-                                                    // تعديل الحفظ
-                                                    print("🔁 Updating card:")
-                                                    print("📝 Title: \(listName)")
-                                                    print("🖼 Image: \(selectedUIImage != nil ? "Yes" : "No")")
-                                                    print("🎙 Audio: \(FileManager.default.fileExists(atPath: recorder.recordingUrl.path) ? "Yes" : "No")")
+                            let audioURL = recorder.recordingUrl
+                            if FileManager.default.fileExists(atPath: audioURL.path) {
+                                let audioDest = FileManager.default.temporaryDirectory.appendingPathComponent("\(key).m4a")
+                                try? FileManager.default.removeItem(at: audioDest)
+                                try? FileManager.default.copyItem(at: audioURL, to: audioDest)
+                                UserDefaults.standard.set(audioDest.path, forKey: "audioPath-\(key)")
+                                card.audioURL = audioDest
+                            }
 
+                            print("🔁 Updating card:")
+                            print("📝 Title: \(listName)")
+                            print("🖼 Image: \(selectedUIImage != nil ? "Yes" : "No")")
+                            print("🎙 Audio: \(FileManager.default.fileExists(atPath: recorder.recordingUrl.path) ? "Yes" : "No")")
 
-                                                    if let recordID = recordID {
-                                                        cloudKitManager.updateCard(
-                                                            recordID: recordID,
-                                                            newTitle: listName,
-                                                            newImage: selectedUIImage,
-                                                            newAudioURL: recorder.recordingUrl
-                                                        )
-                                                        
-                                                        //🌱
-                                                        //cloudKitManager.fetchCards(for: card.categoryID) { _ in }
-                                                        
-                                                        // ✅ نحدث الكروت، وننتظر النتيجة قبل الإغلاق
-                                                        cloudKitManager.fetchCards(for: card.categoryID) { newCards in
-                                                            DispatchQueue.main.async {
-                                                                // ممكن تحدث الـ userCards هنا إذا كانت مرتبطة بـ @Binding أو @EnvironmentObject
-                                                                print("✅ Cards reloaded successfully after update.")
-                                                                dismiss()
-                                                            }
-                                                        }
-                                                    }
+                            if let recordID = recordID {
+                                cloudKitManager.updateCard(
+                                    recordID: recordID,
+                                    newTitle: listName,
+                                    newImage: selectedUIImage,
+                                    newAudioURL: recorder.recordingUrl
+                                )
 
-                                                    dismiss()
-                                                    
-                                                } label: {
-                                                    Text("تعديل البطاقة")
-                                                        .font(.headline)
-                                                        .frame(width: buttonWidth, height: 47.34)
-                                                        .background(Color.blue22)
-                                                        .foregroundColor(.white)
-                                                        .cornerRadius(34.83)
-                                                }
+                                cloudKitManager.fetchCards(for: card.categoryID) { newCards in
+                                    DispatchQueue.main.async {
+                                        print("✅ Cards reloaded successfully after update.")
+                                        dismiss()
+                                    }
+                                }
+                            }
+
+                            dismiss()
+                        } label: {
+                            Text("Edit Card")
+                                .font(.headline)
+                                .frame(width: buttonWidth, height: 47.34)
+                                .background(Color.blue22)
+                                .foregroundColor(.white)
+                                .cornerRadius(34.83)
+                        }
 
                         Button {
                             dismiss()
                         } label: {
-                            Text("إلغاء")
+                            Text("Cancel")
                                 .font(.headline)
                                 .frame(width: buttonWidth, height: 47.34)
                                 .background(Color.white)
@@ -302,15 +245,15 @@ struct EditCardView: View {
                                 cloudKitManager.privateDatabase.delete(withRecordID: recordID) { _, error in
                                     DispatchQueue.main.async {
                                         if let error = error {
-                                            print("❌ فشل في الحذف: \(error.localizedDescription)")
+                                            print("❌ Failed to delete: \(error.localizedDescription)")
                                         } else {
-                                            print("🗑️ تم حذف البطاقة بنجاح")
+                                            print("🗑️ Card deleted successfully")
                                             dismiss()
                                         }
                                     }
                                 }
                             } label: {
-                                Text("حذف")
+                                Text("Delete")
                                     .font(.headline)
                                     .frame(width: buttonWidth, height: 47.34)
                                     .background(Color.white)
@@ -323,15 +266,14 @@ struct EditCardView: View {
                             }
                         }
 
-                        Spacer(minLength: 80) // 🩷
+                        Spacer(minLength: 80)
                     }
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker1(image: $selectedUIImage)
                     }
                     .padding()
-                    .frame(minHeight: geo.size.height) // 🩷
+                    .frame(minHeight: geo.size.height)
                 }
-
             }
         }
     }
@@ -360,8 +302,8 @@ struct CardPreviewView2: View {
                 .font(.system(size: 21.78))
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
+               // .multilineTextAlignment(.leading) // Left alignment
+                //.frame(maxWidth: .infinity, alignment: .leading) // Align left
         }
         .padding()
         .frame(width: 168.78, height: 210.16)

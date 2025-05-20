@@ -33,15 +33,15 @@ struct AddListView: View {
                         VStack(spacing: 20) {
                             Spacer(minLength: 10)
 
-                            HStack {
-                                Spacer()
-                                Text("اسم القائمة")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .padding(.top, 20)
-                            }
+                            // Text aligned left by removing Spacer and default alignment
+                            Text("List Name")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .padding(.top, 20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
 
-                            TextField("اسم القائمة", text: $listName)
+                            TextField("List Name", text: $listName)
                                 .padding()
                                 .frame(height: 48)
                                 .background(
@@ -49,15 +49,14 @@ struct AddListView: View {
                                         .stroke(Color.blue22, lineWidth: 1.5)
                                         .background(RoundedRectangle(cornerRadius: 30).fill(.white))
                                 )
-                                .multilineTextAlignment(.trailing)
+                                .multilineTextAlignment(.leading)  // Changed from .trailing to .leading
                                 .padding(.horizontal)
 
-                            HStack {
-                                Spacer()
-                                Text("اللون")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                            }
+                            Text("Color")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 12) {
@@ -87,7 +86,7 @@ struct AddListView: View {
                             }
 
                             if showColorPicker {
-                                ColorPicker("اختر لونًا", selection: $customColor)
+                                ColorPicker("Choose a color", selection: $customColor)
                                     .padding(.horizontal)
                                     .onChange(of: customColor) { newColor in
                                         userColors.append(newColor)
@@ -96,12 +95,11 @@ struct AddListView: View {
                                     }
                             }
 
-                            HStack {
-                                Spacer()
-                                Text("ارفق الصورة")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                            }
+                            Text("Upload Image")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
 
                             Button(action: {
                                 showImagePicker = true
@@ -114,6 +112,7 @@ struct AddListView: View {
                                     .background(Color.gray.opacity(0.2))
                                     .cornerRadius(15)
                             }
+                            .padding(.horizontal)
 
                             if let uiImage = selectedUIImage {
                                 CardPreviewView(
@@ -125,19 +124,18 @@ struct AddListView: View {
                             }
 
                             Button(action: {
-                                // Validation for image selection, name, and color
                                 if selectedUIImage == nil {
-                                    alertMessage = "يرجى اختيار صورة قبل الحفظ."
+                                    alertMessage = "Please select an image before saving"
                                     showAlert = true
                                     return
                                 }
                                 if listName.isEmpty {
-                                    alertMessage = "يرجى إدخال اسم القائمة."
+                                    alertMessage = "Please enter the list name."
                                     showAlert = true
                                     return
                                 }
-                                if selectedColor == .blue { // Change this condition if you want a specific default color
-                                    alertMessage = "يرجى اختيار لون القائمة."
+                                if selectedColor == .blue {
+                                    alertMessage = "Please select the list color."
                                     showAlert = true
                                     return
                                 }
@@ -145,7 +143,7 @@ struct AddListView: View {
                                 cloudKitManager.saveList(title: listName, color: selectedColor, image: selectedUIImage)
                                 dismiss()
                             }) {
-                                Text("حفظ التصنيف")
+                                Text("Save Category")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.blue22)
@@ -154,13 +152,13 @@ struct AddListView: View {
                             }
                             .padding(.horizontal)
                             .alert(isPresented: $showAlert) {
-                                Alert(title: Text("خطأ"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                                Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("Ok")))
                             }
 
                             Button(action: {
                                 dismiss()
                             }) {
-                                Text("إلغاء")
+                                Text("Cancel")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.white)
@@ -185,6 +183,8 @@ struct AddListView: View {
         }
     }
 }
+
+// Keep CardPreviewView and ImagePicker as they are, since they do not require text alignment changes.
 
 // MARK: - Card Preview
 struct CardPreviewView: View {

@@ -1,11 +1,7 @@
-
-
-
-
-
 import SwiftUI
 import CloudKit
 import LocalAuthentication
+
 struct FoodView: View {
     let categoryID: CKRecord.ID
     @EnvironmentObject var cloudKitManager: CloudKitManager
@@ -17,12 +13,32 @@ struct FoodView: View {
     @State private var selectedStaticCard: StaticCard? = nil // ↩️
 
     private let allStaticCards: [StaticCard] = [
-        StaticCard(title: "بيض", imageName: "Food", frameColor: .yelow1, strokeColor: .yelow1, iconName: "Food Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "food-egg"), categoryID: CategoryIDs.food),
-        StaticCard(title: "مكرونة", imageName: "Pasta", frameColor: .yelow1, strokeColor: .yelow1, iconName: "Food Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "food-pasta"), categoryID: CategoryIDs.food),
-        StaticCard(title: "رز", imageName: "Rice", frameColor: .yelow1, strokeColor: .yelow1, iconName: "Food Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "food-rice"), categoryID: CategoryIDs.food),
-        StaticCard(title: "موية", imageName: "Water", frameColor: .yelow1, strokeColor: .yelow1, iconName: "Food Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "food-water"), categoryID: CategoryIDs.food),
-        StaticCard(title: "عصير", imageName: "Juice", frameColor: .yelow1, strokeColor: .yelow1, iconName: "Food Icon", imageTopPadding: 10, recordID: CKRecord.ID(recordName: "food-juice"), categoryID: CategoryIDs.food)
+        StaticCard(title: NSLocalizedString("Egg", comment: "Food item - Egg"),
+                   imageName: "Food", frameColor: .yelow1, strokeColor: .yelow1,
+                   iconName: "Food Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "food-egg"), categoryID: CategoryIDs.food),
+
+        StaticCard(title: NSLocalizedString("Pasta", comment: "Food item - Pasta"),
+                   imageName: "Pasta", frameColor: .yelow1, strokeColor: .yelow1,
+                   iconName: "Food Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "food-pasta"), categoryID: CategoryIDs.food),
+
+        StaticCard(title: NSLocalizedString("Rice", comment: "Food item - Rice"),
+                   imageName: "Rice", frameColor: .yelow1, strokeColor: .yelow1,
+                   iconName: "Food Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "food-rice"), categoryID: CategoryIDs.food),
+
+        StaticCard(title: NSLocalizedString("Water", comment: "Food item - Water"),
+                   imageName: "Water", frameColor: .yelow1, strokeColor: .yelow1,
+                   iconName: "Food Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "food-water"), categoryID: CategoryIDs.food),
+
+        StaticCard(title: NSLocalizedString("Juice", comment: "Food item - Juice"),
+                   imageName: "Juice", frameColor: .yelow1, strokeColor: .yelow1,
+                   iconName: "Food Icon", imageTopPadding: 10,
+                   recordID: CKRecord.ID(recordName: "food-juice"), categoryID: CategoryIDs.food)
     ]
+
 
     var staticCards: [StaticCard] {
         allStaticCards.filter { $0.categoryID == categoryID }.map { originalCard in
@@ -50,28 +66,26 @@ struct FoodView: View {
     }
 
     //start Face ID authentication logic
-        private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
+    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
 
-            
-            // ✅ This line allows Face ID with passcode fallback
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+        // ✅ This line allows Face ID with passcode fallback
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
 
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                    DispatchQueue.main.async {
-                        completion(success)
-                    }
-                }
-            } else {
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
-                    completion(false)
+                    completion(success)
                 }
             }
-        }//end
-    
-    // عدلت هذا كامل🩷
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+        }
+    }//end
+
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -82,7 +96,7 @@ struct FoodView: View {
 
                 VStack(spacing: 0) {
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) { // changed alignment to .leading
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -92,7 +106,7 @@ struct FoodView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
@@ -103,10 +117,10 @@ struct FoodView: View {
                             .padding(.horizontal)
                             .padding(.top, 40)
 
-                            Text("أكلي")
+                            Text("My Food")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment: .leading) // changed alignment to .leading
 
                             NavigationLink(
                                 destination: Group {
@@ -157,7 +171,7 @@ struct FoodView: View {
                                     CardButtonView(
                                         card: .constant(
                                             StaticCard(
-                                                title: "إضافة كرت",
+                                                title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
                                                 imageName: "Plus Sign",
                                                 frameColor: .blue1,
                                                 strokeColor: .blue1,
@@ -197,7 +211,6 @@ struct FoodView: View {
             }
         }
     }
-
 }
 
 struct FoodCardView: View {

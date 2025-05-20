@@ -14,27 +14,26 @@ struct CategoryView: View {
     var categoryColor: Color
     let categoryTitle: String
 
-    //start Face ID authentication logic
-        private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
+    // Face ID authentication logic
+    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
 
-            
-            // ✅ This line allows Face ID with passcode fallback
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
 
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                    DispatchQueue.main.async {
-                        completion(success)
-                    }
-                }
-            } else {
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
-                    completion(false)
+                    completion(success)
                 }
             }
-        }//end
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+        }
+    }
+
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -49,7 +48,7 @@ struct CategoryView: View {
                         .edgesIgnoringSafeArea(.all)
 
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -61,7 +60,7 @@ struct CategoryView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
@@ -72,12 +71,12 @@ struct CategoryView: View {
                             .padding(.horizontal)
                             .padding(.top, 40)
 
-                            VStack(alignment: .trailing, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text(categoryTitle)
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(.black)
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
                             LazyVGrid(columns: columns, spacing: 28) {
                                 if userCards.isEmpty {
@@ -151,12 +150,11 @@ struct CategoryView: View {
                                 }
                             }
 
-                            Spacer(minLength: 100) //🩷
+                            Spacer(minLength: 100)
                         }
                         .padding()
-                        .frame(minHeight: geo.size.height) //🩷
+                        .frame(minHeight: geo.size.height)
                     }
-
                 }
             }
         }
@@ -165,15 +163,14 @@ struct CategoryView: View {
                 self.userCards = cards
             }
         }
-        //new
         .onChange(of: isEditing) { newValue in
-                    if newValue == false {
-                        print("🔄 رجعنا من التعديل، جاري تحديث الكروت...")
-                        cloudKitManager.fetchCards(for: categoryID) { cards in
-                            self.userCards = cards
-                        }
-                    }
+            if newValue == false {
+                print("🔄 Exited edit mode, updating cards...")
+                cloudKitManager.fetchCards(for: categoryID) { cards in
+                    self.userCards = cards
                 }
+            }
+        }
     }
 
     private func addCardButton(cardWidth: CGFloat) -> some View {
@@ -181,9 +178,8 @@ struct CategoryView: View {
             authenticateWithFaceID { success in
                 if success {
                     authPassed = true
-                    showAddListSheet=true
+                    showAddListSheet = true
                 } else {
-                    // Optional: Add error handling or alert
                     print("Authentication failed or canceled")
                 }
             }
@@ -191,7 +187,7 @@ struct CategoryView: View {
             CardButtonView(
                 card: .constant(
                     StaticCard(
-                        title: "إضافة كرت",
+                        title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
                         imageName: "Plus Sign",
                         frameColor: .blue1,
                         strokeColor: .blue1,
@@ -212,15 +208,11 @@ struct CategoryView: View {
     }
 }
 
-
-
-
-
 #Preview {
     CategoryView(
         categoryID: CKRecord.ID(recordName: "MockCategoryID"),
         categoryColor: .blue,
-        categoryTitle: "الملابس"
+        categoryTitle: "Clothing"
     )
     .environmentObject(CloudKitManager())
     .environmentObject(VoiceRecorderManager())

@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import CloudKit
 import LocalAuthentication
@@ -15,10 +13,22 @@ struct GamesView: View {
     @State private var selectedStaticCard: StaticCard? = nil // ↩️
 
     private let allStaticCards: [StaticCard] = [
-        StaticCard(title: "الألعاب", imageName: "Games1", frameColor: .lavender, strokeColor: .lavender, iconName: "Game Icon", imageTopPadding: 20, recordID: CKRecord.ID(recordName: "card-games"), categoryID: CategoryIDs.games),
-        StaticCard(title: "دبدوب", imageName: "Dall", frameColor: .lavender, strokeColor: .lavender, iconName: "Game Icon", imageTopPadding: 20, recordID: CKRecord.ID(recordName: "card-doll"), categoryID: CategoryIDs.games),
-        StaticCard(title: "كورة", imageName: "Ball", frameColor: .lavender, strokeColor: .lavender, iconName: "Game Icon", imageTopPadding: 20, recordID: CKRecord.ID(recordName: "card-ball"), categoryID: CategoryIDs.games)
+        StaticCard(title: NSLocalizedString("Games", comment: "Games category - general"),
+                   imageName: "Games1", frameColor: .lavender, strokeColor: .lavender,
+                   iconName: "Game Icon", imageTopPadding: 20,
+                   recordID: CKRecord.ID(recordName: "card-games"), categoryID: CategoryIDs.games),
+
+        StaticCard(title: NSLocalizedString("Doll", comment: "Games category - doll"),
+                   imageName: "Dall", frameColor: .lavender, strokeColor: .lavender,
+                   iconName: "Game Icon", imageTopPadding: 20,
+                   recordID: CKRecord.ID(recordName: "card-doll"), categoryID: CategoryIDs.games),
+
+        StaticCard(title: NSLocalizedString("Ball", comment: "Games category - ball"),
+                   imageName: "Ball", frameColor: .lavender, strokeColor: .lavender,
+                   iconName: "Game Icon", imageTopPadding: 20,
+                   recordID: CKRecord.ID(recordName: "card-ball"), categoryID: CategoryIDs.games)
     ]
+
 
     var staticCards: [StaticCard] {
         allStaticCards.filter { $0.categoryID == categoryID }.map { originalCard in
@@ -50,10 +60,9 @@ struct GamesView: View {
             let context = LAContext()
             var error: NSError?
 
-            
             // ✅ This line allows Face ID with passcode fallback
             if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+                let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
 
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                     DispatchQueue.main.async {
@@ -67,7 +76,7 @@ struct GamesView: View {
             }
         }//end
     
-    // عدلت هذا كامل🩷
+    // Modified this entire section 🩷
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -78,7 +87,7 @@ struct GamesView: View {
 
                 VStack(spacing: 0) {
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) { // changed to .leading
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -88,21 +97,22 @@ struct GamesView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
                                         .background(Color.white)
                                         .cornerRadius(25.52)
                                 }
+                               
                             }
                             .padding(.horizontal)
                             .padding(.top, 40)
 
-                            Text("العابي")
+                            Text("My Games")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment: .leading) // changed to .leading
 
                             NavigationLink(
                                 destination: Group {
@@ -153,7 +163,7 @@ struct GamesView: View {
                                     CardButtonView(
                                         card: .constant(
                                             StaticCard(
-                                                title: "إضافة كرت",
+                                                title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
                                                 imageName: "Plus Sign",
                                                 frameColor: .blue1,
                                                 strokeColor: .blue1,
@@ -162,6 +172,7 @@ struct GamesView: View {
                                                 recordID: CKRecord.ID(recordName: "new"),
                                                 categoryID: categoryID
                                             )
+
                                         ),
                                         isEditing: .constant(false),
                                         cardWidth: cardWidth
@@ -346,4 +357,3 @@ struct GameUserCardView: View {
         }
     }
 }
-

@@ -36,14 +36,14 @@ struct AddCardView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             HStack {
-                                Spacer()
-                                Text("اسم الكرت")
+                                Text("Card Name")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .padding(.top, 30)
+                                Spacer()
                             }
 
-                            TextField("اسم الكرت", text: $listName)
+                            TextField("Card Name", text: $listName)
                                 .padding()
                                 .frame(height: 48)
                                 .background(
@@ -51,14 +51,14 @@ struct AddCardView: View {
                                         .stroke(Color.blue22, lineWidth: 1.5)
                                         .background(RoundedRectangle(cornerRadius: 30).fill(.white))
                                 )
-                                .multilineTextAlignment(.trailing)
+                                .multilineTextAlignment(.leading)
                                 .padding(.horizontal)
 
                             HStack {
-                                Spacer()
-                                Text("ارفق الصورة")
+                                Text("Attach Image")
                                     .font(.title)
                                     .fontWeight(.bold)
+                                Spacer()
                             }
 
                             Button(action: {
@@ -76,7 +76,7 @@ struct AddCardView: View {
                             if let uiImage = selectedUIImage {
                                 CardPreviewView(
                                     image: Image(uiImage: uiImage),
-                                    title: listName.isEmpty ? "بدون اسم" : listName,
+                                    title: listName.isEmpty ? "No Name" : listName,
                                     frameColor: selectedColor.opacity(0.5),
                                     strokeColor: selectedColor
                                 )
@@ -86,10 +86,10 @@ struct AddCardView: View {
                             }
 
                             HStack {
-                                Spacer()
-                                Text("الرجاء تسجيل صوتك")
+                                Text("Please record your voice")
                                     .font(.title)
                                     .fontWeight(.bold)
+                                Spacer()
                             }
 
                             HStack(spacing: 20) {
@@ -159,7 +159,7 @@ struct AddCardView: View {
                                 )
                                 dismiss()
                             }) {
-                                Text("حفظ البطاقة")
+                                Text("Save Card")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.blue22)
@@ -168,13 +168,13 @@ struct AddCardView: View {
                             }
                             .padding(.horizontal)
                             .alert(isPresented: $showAlert) {
-                                Alert(title: Text("خطأ"), message: Text("يرجى اختيار صورة قبل الحفظ."), dismissButton: .default(Text("OK")))
+                                Alert(title: Text("Error"), message: Text("Please select an image before saving."), dismissButton: .default(Text("OK")))
                             }
 
                             Button(action: {
                                 dismiss()
                             }) {
-                                Text("إلغاء")
+                                Text("Cancel")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, minHeight: 47.34)
                                     .background(Color.white)

@@ -1,8 +1,7 @@
-
-
 import SwiftUI
 import CloudKit
 import LocalAuthentication
+
 struct FeelingsView: View {
     let categoryID: CKRecord.ID
     @EnvironmentObject var cloudKitManager: CloudKitManager
@@ -22,12 +21,32 @@ struct FeelingsView: View {
     }
 
     private let allStaticCards: [StaticCard] = [
-        StaticCard(title: "أنا مبسوط", imageName: "Happy", frameColor: .purple1, strokeColor: .purple1, iconName: "Heart Icon", imageTopPadding: 10, recordID: CardIDs.happy, categoryID: CategoryIDs.feelings),
-        StaticCard(title: "آنا زعلان", imageName: "Mad", frameColor: .purple1, strokeColor: .purple1, iconName: "Heart Icon", imageTopPadding: 10, recordID: CardIDs.angry, categoryID: CategoryIDs.feelings),
-        StaticCard(title: "أنا خايف", imageName: "Scared", frameColor: .purple1, strokeColor: .purple1, iconName: "Heart Icon", imageTopPadding: 10, recordID: CardIDs.scared, categoryID: CategoryIDs.feelings),
-        StaticCard(title: "أنا مستغرب", imageName: "Suprised", frameColor: .purple1, strokeColor: .purple1, iconName: "Heart Icon", imageTopPadding: 10, recordID: CardIDs.surprised, categoryID: CategoryIDs.feelings),
-        StaticCard(title: "أنا ابكي", imageName: "Crying", frameColor: .purple1, strokeColor: .purple1, iconName: "Heart Icon", imageTopPadding: 10, recordID: CardIDs.crying, categoryID: CategoryIDs.feelings)
+        StaticCard(title: NSLocalizedString("I'm happy", comment: "Feeling - Happy"),
+                   imageName: "Happy", frameColor: .purple1, strokeColor: .purple1,
+                   iconName: "Heart Icon", imageTopPadding: 10,
+                   recordID: CardIDs.happy, categoryID: CategoryIDs.feelings),
+
+        StaticCard(title: NSLocalizedString("I'm angry", comment: "Feeling - Angry"),
+                   imageName: "Mad", frameColor: .purple1, strokeColor: .purple1,
+                   iconName: "Heart Icon", imageTopPadding: 10,
+                   recordID: CardIDs.angry, categoryID: CategoryIDs.feelings),
+
+        StaticCard(title: NSLocalizedString("I'm scared", comment: "Feeling - Scared"),
+                   imageName: "Scared", frameColor: .purple1, strokeColor: .purple1,
+                   iconName: "Heart Icon", imageTopPadding: 10,
+                   recordID: CardIDs.scared, categoryID: CategoryIDs.feelings),
+
+        StaticCard(title: NSLocalizedString("I'm surprised", comment: "Feeling - Surprised"),
+                   imageName: "Suprised", frameColor: .purple1, strokeColor: .purple1,
+                   iconName: "Heart Icon", imageTopPadding: 10,
+                   recordID: CardIDs.surprised, categoryID: CategoryIDs.feelings),
+
+        StaticCard(title: NSLocalizedString("I'm crying", comment: "Feeling - Crying"),
+                   imageName: "Crying", frameColor: .purple1, strokeColor: .purple1,
+                   iconName: "Heart Icon", imageTopPadding: 10,
+                   recordID: CardIDs.crying, categoryID: CategoryIDs.feelings)
     ]
+
 
     var staticCards: [StaticCard] {
         allStaticCards.filter { $0.categoryID == categoryID }.map { originalCard in
@@ -53,29 +72,28 @@ struct FeelingsView: View {
             return card
         }
     }
-    //start Face ID authentication logic
-        private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-            let context = LAContext()
-            var error: NSError?
 
-            
-            // ✅ This line allows Face ID with passcode fallback
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                let reason = "الرجاء التحقق باستخدام Face ID أو كلمة المرور لإضافة قائمة جديدة"
+    // Face ID authentication logic
+    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+        let context = LAContext()
+        var error: NSError?
 
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                    DispatchQueue.main.async {
-                        completion(success)
-                    }
-                }
-            } else {
+        // Face ID with passcode fallback
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
+
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
-                    completion(false)
+                    completion(success)
                 }
             }
-        }//end
-    
-    // عدلت هذا كامل🩷
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+        }
+    }
+
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -86,7 +104,7 @@ struct FeelingsView: View {
 
                 VStack(spacing: 0) {
                     ScrollView {
-                        VStack(alignment: .trailing, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -96,7 +114,7 @@ struct FeelingsView: View {
                                         }
                                     }
                                 }) {
-                                    Text(isEditing ? "تم" : "تعديل")
+                                    Text(isEditing ? "Done" : "Edit")
                                         .frame(width: 63, height: 26.42)
                                         .font(.system(size: 14.85, weight: .bold))
                                         .foregroundColor(.darkBlue1)
@@ -107,10 +125,10 @@ struct FeelingsView: View {
                             .padding(.horizontal)
                             .padding(.top, 40)
 
-                            Text("مشاعري")
+                            Text("My Feelings")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment: .leading)
 
                             NavigationLink(
                                 destination: Group {
@@ -161,7 +179,7 @@ struct FeelingsView: View {
                                     CardButtonView(
                                         card: .constant(
                                             StaticCard(
-                                                title: "إضافة كرت",
+                                                title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
                                                 imageName: "Plus Sign",
                                                 frameColor: .blue1,
                                                 strokeColor: .blue1,
@@ -201,8 +219,14 @@ struct FeelingsView: View {
             }
         }
     }
-
 }
+
+// The rest of your structs (FeelingCardView, FeelingUserCardView) remain unchanged and do not have Arabic text to translate, so you can keep them as is.
+
+
+
+
+
 
 struct FeelingCardView: View {
     @Binding var card: StaticCard
@@ -277,6 +301,8 @@ struct FeelingCardView: View {
         }
     }
 }
+
+
 
 
 struct FeelingUserCardView: View {

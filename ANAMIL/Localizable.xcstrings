@@ -1,0 +1,594 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Add Card" : {
+      "comment" : "Title for the button to add a new card",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضف بطاقة"
+          }
+        }
+      }
+    },
+    "Add List" : {
+      "comment" : "Title for the button to add a new List",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة قائمة"
+          }
+        }
+      }
+    },
+    "Attach Image" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ارفق صورة"
+          }
+        }
+      }
+    },
+    "Ball" : {
+      "comment" : "Games category - ball",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كوره"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الغاء"
+          }
+        }
+      }
+    },
+    "Card Name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم البطاقة"
+          }
+        }
+      }
+    },
+    "Choose a color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إختر اللون"
+          }
+        }
+      }
+    },
+    "Clothes" : {
+      "comment" : "Category title - clothes",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الملابس"
+          }
+        }
+      }
+    },
+    "Color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اللون"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        }
+      }
+    },
+    "Doll" : {
+      "comment" : "Games category - doll",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دبدوب"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعديل"
+          }
+        }
+      }
+    },
+    "Edit Card" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعديل بطاقة"
+          }
+        }
+      }
+    },
+    "Edit Category" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعديل التصنيف"
+          }
+        }
+      }
+    },
+    "Egg" : {
+      "comment" : "Food item - Egg",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بيض"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطأ"
+          }
+        }
+      }
+    },
+    "Feelings" : {
+      "comment" : "Category title - feelings",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المشاعر"
+          }
+        }
+      }
+    },
+    "Food" : {
+      "comment" : "Category title - food",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاكل"
+          }
+        }
+      }
+    },
+    "Games" : {
+      "comment" : "Category title - games\nGames category - general",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الالعاب"
+          }
+        }
+      }
+    },
+    "I'm angry" : {
+      "comment" : "Feeling - Angry",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انا غاضب"
+          }
+        }
+      }
+    },
+    "I'm crying" : {
+      "comment" : "Feeling - Crying",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انا ابكي"
+          }
+        }
+      }
+    },
+    "I'm happy" : {
+      "comment" : "Feeling - Happy",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انا سعيد"
+          }
+        }
+      }
+    },
+    "I'm scared" : {
+      "comment" : "Feeling - Scared",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انا خائف"
+          }
+        }
+      }
+    },
+    "I'm surprised" : {
+      "comment" : "Feeling - Surprised",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انا متفاجئ"
+          }
+        }
+      }
+    },
+    "Jacket" : {
+      "comment" : "Clothes category - jacket",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جاكيت"
+          }
+        }
+      }
+    },
+    "Juice" : {
+      "comment" : "Food item - Juice",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عصير"
+          }
+        }
+      }
+    },
+    "List Name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم القائمة"
+          }
+        }
+      }
+    },
+    "My Belly Hurts" : {
+      "comment" : "Pain category - belly",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بطني يؤلمني"
+          }
+        }
+      }
+    },
+    "My Clothes" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الملابس"
+          }
+        }
+      }
+    },
+    "My Feelings" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مشاعري"
+          }
+        }
+      }
+    },
+    "My Food" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاكل"
+          }
+        }
+      }
+    },
+    "My Games" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الالعاب"
+          }
+        }
+      }
+    },
+    "My Hand Hurts" : {
+      "comment" : "Pain category - hand",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يدي تؤلمني"
+          }
+        }
+      }
+    },
+    "My Head Hurts" : {
+      "comment" : "Pain category - head",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رأسي يؤلمني"
+          }
+        }
+      }
+    },
+    "My Leg Hurts" : {
+      "comment" : "Pain category - leg",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ساقي يؤلمني"
+          }
+        }
+      }
+    },
+    "My Pains" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الآلام"
+          }
+        }
+      }
+    },
+    "My Teeth Hurt" : {
+      "comment" : "Pain category - teeth",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسناني تؤلمني"
+          }
+        }
+      }
+    },
+    "Ok" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسناً"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسناً"
+          }
+        }
+      }
+    },
+    "Pants" : {
+      "comment" : "Clothes category - pants",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بنطلون"
+          }
+        }
+      }
+    },
+    "Pasta" : {
+      "comment" : "Food item - Pasta",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مكرونه"
+          }
+        }
+      }
+    },
+    "Please record your voice" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يرجى تسجيل صوتك.\n"
+          }
+        }
+      }
+    },
+    "Please Record Your Voice" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يرجى تسجيل صوتك.\n"
+          }
+        }
+      }
+    },
+    "Please select an image before saving." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يرجى اختيار صورة قبل الحفظ.\n"
+          }
+        }
+      }
+    },
+    "Rice" : {
+      "comment" : "Food item - Rice",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رز"
+          }
+        }
+      }
+    },
+    "Save Card" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حفظ البطاقة"
+          }
+        }
+      }
+    },
+    "Save Category" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حفظ القائمة"
+          }
+        }
+      }
+    },
+    "Select a Color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إختر اللون"
+          }
+        }
+      }
+    },
+    "Shirt" : {
+      "comment" : "Clothes category - shirt",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بلوزة"
+          }
+        }
+      }
+    },
+    "Shoes" : {
+      "comment" : "Clothes category - shoes",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذاء"
+          }
+        }
+      }
+    },
+    "Unknown List" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قائمة غير معروفة "
+          }
+        }
+      }
+    },
+    "Upload Image" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أرفق صورة"
+          }
+        }
+      }
+    },
+    "Water" : {
+      "comment" : "Food item - Water",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ماء"
+          }
+        }
+      }
+    },
+    "What Hurts Me?" : {
+      "comment" : "Category title - pain",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ماذا يؤلمني"
+          }
+        }
+      }
+    },
+    "Your Child's Lists" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قوائم طفلك"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
