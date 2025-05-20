@@ -13,7 +13,7 @@ struct ANAMILApp: App {
     var body: some Scene {
         WindowGroup {
             SplashScreen()
-            
+                .environment(\.layoutDirection, .leftToRight)
                             .environmentObject(VoiceRecorderManager())  // Add environment object in the preview
                                        .environmentObject(CloudKitManager())  // Add CloudKitManager if needed
         }
