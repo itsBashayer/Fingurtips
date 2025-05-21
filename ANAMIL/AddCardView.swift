@@ -45,6 +45,7 @@ struct AddCardView: View {
 
                             TextField("Card Name", text: $listName)
                                 .padding()
+                                .foregroundColor(.navey) //
                                 .frame(height: 48)
                                 .background(
                                     RoundedRectangle(cornerRadius: 30)
@@ -220,9 +221,9 @@ struct CardPreviewView1: View {
             }
 
             Text(title)
-                .font(.system(size: 21.78))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                .foregroundColor(.navey)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }

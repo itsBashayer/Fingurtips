@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photos to add a card</string>
+	<string>We need access to your photos to add an image to the card and list</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card.</string>
+	<string>We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict/>
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need your microphone to record voice messages.</string>
+	<string>We need your microphone to record  your voice  to add your voice in the cards </string>
 </dict>
 </plist>

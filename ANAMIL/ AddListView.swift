@@ -43,6 +43,7 @@ struct AddListView: View {
 
                             TextField("List Name", text: $listName)
                                 .padding()
+                                .foregroundColor(.navey) //
                                 .frame(height: 48)
                                 .background(
                                     RoundedRectangle(cornerRadius: 30)
@@ -184,8 +185,6 @@ struct AddListView: View {
     }
 }
 
-// Keep CardPreviewView and ImagePicker as they are, since they do not require text alignment changes.
-
 // MARK: - Card Preview
 struct CardPreviewView: View {
     var image: Image
@@ -207,14 +206,15 @@ struct CardPreviewView: View {
             }
 
             Text(title)
-                .font(.system(size: 21.78))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                .foregroundColor(.navey)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: 168.78, height: 210.16)
+        .background(Color("CardBGColor"))
         .background(Color.white.opacity(0.8))
         .cornerRadius(21.78)
         .overlay(

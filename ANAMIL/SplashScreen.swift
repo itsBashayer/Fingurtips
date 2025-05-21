@@ -5,7 +5,6 @@
 //
 
 
-
 import SwiftUI
 
 struct SplashScreen: View {

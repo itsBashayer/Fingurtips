@@ -14,11 +14,18 @@ class CloudKitManager: ObservableObject {
     @Published var lists: [UserListItem] = []
 
     let container = CKContainer.default()
+
     //
     // ✅ Using private database instead of public
       var privateDatabase1: CKDatabase {
           CKContainer.default().privateCloudDatabase
       }
+    
+
+    var publicDatabase1: CKDatabase {
+        CKContainer(identifier: "iCloud.com.fatimah.ANAMIL").publicCloudDatabase
+    }
+    
 
     func fetchLists() {
         let query = CKQuery(recordType: "UserList", predicate: NSPredicate(value: true))
@@ -49,6 +56,7 @@ class CloudKitManager: ObservableObject {
                 } ?? []
             }
         }
+                
     }
 
     func saveList(title: String, color: Color, image: UIImage?) {
@@ -94,6 +102,7 @@ class CloudKitManager: ObservableObject {
                 }
             }
         }
+        
     }
     //
     func updateList(id: CKRecord.ID, title: String, color: Color, image: UIImage?) {
@@ -121,6 +130,7 @@ class CloudKitManager: ObservableObject {
                 }
             }
         }
+                
     }
     
     func deleteList(id: CKRecord.ID) {
@@ -134,6 +144,7 @@ class CloudKitManager: ObservableObject {
                 }
             }
         }
+        
     }
 
 

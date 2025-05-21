@@ -70,6 +70,7 @@ struct EditListView: View {
 
                             TextField("List Name", text: $listName)
                                 .padding()
+                                .foregroundColor(.navey)
                                 .frame(height: 48)
                                 .background(
                                     RoundedRectangle(cornerRadius: 30)

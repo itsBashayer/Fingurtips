@@ -111,7 +111,8 @@ struct GamesView: View {
 
                             Text("My Games")
                                 .font(.system(size: 24, weight: .bold))
-                                .foregroundColor(.black)
+                                //.foregroundColor(.black)
+                                .foregroundColor(Color("PrimaryTextColor"))
                                 .frame(maxWidth: .infinity, alignment: .leading) // changed to .leading
 
                             NavigationLink(
@@ -259,15 +260,17 @@ struct GameCardView: View {
             }
 
             Text(card.title)
-                .font(.system(size: 21.78))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                //.foregroundColor(.primary)
+                .foregroundColor(Color("SecondaryTextColor"))
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: cardWidth, height: cardWidth * 1.5)
-        .background(Color.white.opacity(0.8))
+        //.background(Color.white.opacity(0.8))
+        .background(Color("CardBGColor"))
         .cornerRadius(21.78)
         .overlay(
             RoundedRectangle(cornerRadius: 21.78)
@@ -340,15 +343,17 @@ struct GameUserCardView: View {
                 }
 
                 Text(card.title)
-                    .font(.system(size: 21.78))
+                    .font(.system(size: 20))
                     .fontWeight(.medium)
-                    .foregroundColor(.primary)
+                    //.foregroundColor(.primary)
+                    .foregroundColor(Color("SecondaryTextColor"))
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             .padding()
             .frame(width: cardWidth, height: cardWidth * 1.5)
-            .background(Color.white.opacity(0.8))
+            //.background(Color.white.opacity(0.8))
+            .background(Color("CardBGColor"))
             .cornerRadius(21.78)
             .overlay(
                 RoundedRectangle(cornerRadius: 21.78)

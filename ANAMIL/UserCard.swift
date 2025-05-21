@@ -16,6 +16,8 @@ extension CloudKitManager {
     var privateDatabase: CKDatabase {
         CKContainer.default().privateCloudDatabase
     }
+    
+
 
     func saveCard(title: String, image: UIImage?, audioURL: URL?, parentListID: CKRecord.ID) {
         let cardRecord = CKRecord(recordType: "UserCard")
@@ -84,37 +86,6 @@ extension CloudKitManager {
     }
     
     
-//    func updateCard(recordID: CKRecord.ID, newTitle: String, newImage: UIImage?, newAudioURL: URL?) {
-//        publicDatabase.fetch(withRecordID: recordID) { record, error in
-//            guard let record = record, error == nil else {
-//                print("❌ Error fetching record: \(error?.localizedDescription ?? "")")
-//                return
-//            }
-//
-//            record["title"] = newTitle
-//
-//            if let image = newImage, let imageData = image.jpegData(compressionQuality: 0.8) {
-//                let imageURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".jpg")
-//                try? imageData.write(to: imageURL)
-//                record["image"] = CKAsset(fileURL: imageURL)
-//            }
-//
-//            if let audioURL = newAudioURL {
-//                record["voiceNote"] = CKAsset(fileURL: audioURL)
-//            }
-//
-//            self.publicDatabase.save(record) { _, error in
-//                DispatchQueue.main.async {
-//                    if let error = error {
-//                        print("❌ Failed to update record: \(error.localizedDescription)")
-//                    } else {
-//                        print("✅ Record updated successfully")
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     // new
         func updateCard(recordID: CKRecord.ID, newTitle: String?, newImage: UIImage?, newAudioURL: URL?) {
             privateDatabase.fetch(withRecordID: recordID) { record, error in
@@ -162,6 +133,7 @@ extension CloudKitManager {
                     }
                 }
             }
+            
         }
 
 }

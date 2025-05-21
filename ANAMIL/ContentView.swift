@@ -6,6 +6,7 @@
 //   .padding(.top, geo.size.height > 800 ? 400 : 20)
 // LAST ONE
 
+
 import SwiftUI
 import CloudKit
 import LocalAuthentication
@@ -93,7 +94,9 @@ struct ContentView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Your Child's Lists")
                                     .font(.system(size: 24, weight: .bold))
-                                    .foregroundColor(.black)
+                                    //.foregroundColor(.black)
+                                    .foregroundColor(Color("PrimaryTextColor"))
+
 
                             
                             }
@@ -153,9 +156,10 @@ struct ContentView: View {
                                                 }
                                             }
                                             Text(list.title)
-                                                .font(.system(size: 21.78))
+                                                .font(.system(size: 20))
                                                 .fontWeight(.medium)
-                                                .foregroundColor(.primary)
+                                                //.foregroundColor(.primary)
+                                                .foregroundColor(Color("SecondaryTextColor"))
                                                 .multilineTextAlignment(.center)
                                                 .frame(maxWidth: .infinity, alignment: .center)
                                         }
@@ -324,7 +328,7 @@ struct CardButtonView: View {
                     .frame(width: 20, height: 20)
                     .padding(14)
 
-                if isEditing && card.title != "إضافة قائمة" {
+                if isEditing && card.title != "إضافة قائمة"  && card.title != "Add List" {
                     NavigationLink(destination: EditListView(
                         initialName: card.title,
                         initialImage: card.customImage ?? UIImage(named: card.imageName) ?? UIImage(),
@@ -350,15 +354,17 @@ struct CardButtonView: View {
             }
 
             Text(card.title)
-                .font(.system(size: 21.78))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                //.foregroundColor(.primary)
+                .foregroundColor(Color("SecondaryTextColor"))
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: cardWidth, height: cardWidth * 1.5)
-        .background(Color.white.opacity(0.8))
+        //.background(Color.white.opacity(0.8)) //CardBGColor
+        .background(Color("CardBGColor"))
         .cornerRadius(21.78)
         .overlay(
             RoundedRectangle(cornerRadius: 21.78)

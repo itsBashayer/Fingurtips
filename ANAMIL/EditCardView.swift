@@ -65,6 +65,7 @@ struct EditCardView: View {
 
                         TextField("Card Name", text: $listName)
                             .padding(.horizontal)
+                            .foregroundColor(.navey)
                             .frame(height: 47.65)
                             .frame(maxWidth: buttonWidth)
                             .background(
@@ -242,7 +243,7 @@ struct EditCardView: View {
 
                         if let recordID = recordID {
                             Button {
-                                cloudKitManager.privateDatabase.delete(withRecordID: recordID) { _, error in
+                                cloudKitManager.privateDatabase.delete(withRecordID: recordID) { _, error in // 🪻
                                     DispatchQueue.main.async {
                                         if let error = error {
                                             print("❌ Failed to delete: \(error.localizedDescription)")
@@ -299,9 +300,9 @@ struct CardPreviewView2: View {
             }
 
             Text(title)
-                .font(.system(size: 21.78))
+                .font(.system(size: 20))
                 .fontWeight(.medium)
-                .foregroundColor(.primary)
+                .foregroundColor(.navey)
                // .multilineTextAlignment(.leading) // Left alignment
                 //.frame(maxWidth: .infinity, alignment: .leading) // Align left
         }
