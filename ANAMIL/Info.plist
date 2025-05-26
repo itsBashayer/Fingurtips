@@ -12,5 +12,7 @@
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need your microphone to record  your voice  to add your voice in the cards </string>
+	<key>UIRequiresGuidedAccess</key>
+	<string>We need to access the guiding feature </string>
 </dict>
 </plist>

@@ -1,6 +1,6 @@
 import SwiftUI
 import CloudKit
-import LocalAuthentication
+//import LocalAuthentication
 
 struct PainView: View {
     let categoryID: CKRecord.ID
@@ -65,26 +65,7 @@ struct PainView: View {
         }
     }
 
-    //start Face ID authentication logic
-    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-        let context = LAContext()
-        var error: NSError?
-
-        // ✅ This line allows Face ID with passcode fallback
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card"
-
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    completion(success)
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
-                completion(false)
-            }
-        }
-    }//end
+    
 
     // Edited this fully 🩷
     var body: some View {
@@ -101,20 +82,17 @@ struct PainView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                    authenticateWithFaceID { success in
-                                        if success {
-                                            isEditing.toggle()
-                                        }
-                                    }
-                                }) {
-                                    Text(isEditing ? "Done" : "Edit")  // translated
-                                        .frame(width: 63, height: 26.42)
-                                        .font(.system(size: 14.85, weight: .bold))
-                                        .foregroundColor(.darkBlue1)
-                                        .background(Color.white)
-                                        .cornerRadius(25.52)
-                                }
-                            // switched button and spacer positions for LTR
+                                                                   isEditing.toggle()
+                                                               }) {
+                                                                   Text(isEditing ? "Done" : "Edit")
+                                                                       .frame(width: 63, height: 26.42)
+                                                                       .font(.system(size: 14.85, weight: .bold))
+                                                                       .foregroundColor(.darkBlue1)
+                                                                       .background(Color.white)
+                                                                       .cornerRadius(25.52)
+                                                               }
+                                                           }
+                               // Spacer()
                             }
                             .padding(.horizontal)
                             .padding(.top, 40)
@@ -164,35 +142,29 @@ struct PainView: View {
                                 }
 
                                 Button(action: {
-                                    authenticateWithFaceID { success in
-                                        if success {
-                                            authPassed = true
-                                            showAddListSheet = true
-                                        }
-                                    }
-                                }) {
-                                    CardButtonView(
-                                        card: .constant(
-                                            StaticCard(
-                                                title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
-                                                imageName: "Plus Sign",
-                                                frameColor: .blue1,
-                                                strokeColor: .blue1,
-                                                iconName: "Adding Icon",
-                                                imageTopPadding: 10,
-                                                recordID: CKRecord.ID(recordName: "new"),
-                                                categoryID: categoryID
-                                            )
-                                        ),
-                                        isEditing: .constant(false),
-                                        cardWidth: cardWidth
-                                    )
-                                }
-                                .fullScreenCover(isPresented: $showAddListSheet) {
-                                    AddCardView(categoryColor: dynamicColor, categoryID: categoryID)
-                                        .environmentObject(cloudKitManager)
-                                }
-                            }
+                                                        showAddListSheet = true
+                                                    }) {
+                                                        CardButtonView(
+                                                            card: .constant(
+                                                                StaticCard(
+                                                                    title: NSLocalizedString("Add Card", comment: "Title for the button to add a new card"),
+                                                                    imageName: "Plus Sign",
+                                                                    frameColor: .blue1,
+                                                                    strokeColor: .blue1,
+                                                                    iconName: "Adding Icon",
+                                                                    imageTopPadding: 10,
+                                                                    recordID: CKRecord.ID(recordName: "new"),
+                                                                    categoryID: categoryID)
+                                                            ),
+                                                            isEditing: .constant(false),
+                                                            cardWidth: cardWidth
+                                                        )
+                                                    }
+                                                    .fullScreenCover(isPresented: $showAddListSheet) {
+                                                        AddCardView(categoryColor: dynamicColor, categoryID: categoryID)
+                                                            .environmentObject(cloudKitManager)
+                                                    }
+                                                }
 
                             Spacer(minLength: 100)
                         }
@@ -207,7 +179,7 @@ struct PainView: View {
                     )
                 }
             }
-        }
+        
         .onAppear {
             cloudKitManager.fetchCards(for: categoryID) { cards in
                 self.userCards = cards

@@ -9,7 +9,7 @@
 
 import SwiftUI
 import CloudKit
-import LocalAuthentication
+
 
 struct StaticCard: Identifiable {
     let id = UUID()
@@ -43,23 +43,7 @@ struct ContentView: View {
     @State private var loadedColor: Color = .purple1
     @State private var loadedImage: UIImage?
 
-    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
-        let context = LAContext()
-        var error: NSError?
 
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    completion(success)
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
-                completion(false)
-            }
-        }
-    }
 
     var body: some View {
         NavigationStack {
@@ -74,19 +58,17 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                    authenticateWithFaceID { success in
-                                        if success {
-                                            isEditing.toggle()
-                                        }
-                                    }
-                                }) {
-                                    Text(isEditing ? "Done" : "Edit")
-                                        .frame(width: 63, height: 26.42)
-                                        .font(.system(size: 14.85, weight: .bold))
-                                        .foregroundColor(.darkBlue1)
-                                        .background(Color.white)
-                                        .cornerRadius(25.52)
-                                }
+                                                                   isEditing.toggle()
+                                                               }) {
+                                                                   Text(isEditing ? "Done" : "Edit")
+                                                                       .frame(width: 63, height: 26.42)
+                                                                       .font(.system(size: 14.85, weight: .bold))
+                                                                       .foregroundColor(.darkBlue1)
+                                                                       .background(Color.white)
+                                                                       .cornerRadius(25.52)
+                                                               }
+                                                           }
+                               // Spacer()
                             }
                             .padding(.horizontal)
                             .padding(.top, 30)
@@ -174,11 +156,7 @@ struct ContentView: View {
                                 }
 
                                 Button(action: {
-                                    authenticateWithFaceID { success in
-                                        if success {
-                                            authPassed = true
-                                        }
-                                    }
+                                    showAddListSheet = true
                                 }) {
                                     CardButtonView(card: .constant(
                                         StaticCard(
@@ -193,10 +171,9 @@ struct ContentView: View {
                                         )
                                     ), isEditing: $isEditing, cardWidth: cardWidth)
                                 }
-                                .fullScreenCover(isPresented: $authPassed) {
+                                .fullScreenCover(isPresented: $showAddListSheet) {
                                     AddListView().environmentObject(cloudKitManager)
                                 }
-                            }
 
                             Spacer(minLength: 100)
                         }
