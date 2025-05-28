@@ -73,12 +73,12 @@ struct ContentView: View {
                             .padding(.horizontal)
                             .padding(.top, 30)
 
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 10) {
                                 Text("Your Child's Lists")
                                     .font(.system(size: 24, weight: .bold))
                                     //.foregroundColor(.black)
                                     .foregroundColor(Color("PrimaryTextColor"))
-
+                                    .padding(.leading, 16)
 
                             
                             }
@@ -178,7 +178,7 @@ struct ContentView: View {
                             Spacer(minLength: 100)
                         }
                         .padding()
-                        .frame(minHeight: geo.size.height)
+                       // .frame(minHeight: geo.size.height)
                     }
                     .background(
                         Image("onboarding")

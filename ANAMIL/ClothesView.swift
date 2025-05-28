@@ -100,7 +100,9 @@ struct ClothesView: View {
                                 //.foregroundColor(.black)
                                 .foregroundColor(Color("PrimaryTextColor"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-
+                                .padding(.bottom, 16)
+                                .padding(.leading, 16)
+                        
                             NavigationLink(
                                 destination: Group {
                                     if let card = selectedStaticCard {

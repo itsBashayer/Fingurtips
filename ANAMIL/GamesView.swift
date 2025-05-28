@@ -92,6 +92,9 @@ struct GamesView: View {
                                 //.foregroundColor(.black)
                                 .foregroundColor(Color("PrimaryTextColor"))
                                 .frame(maxWidth: .infinity, alignment: .leading) // changed to .leading
+                                .padding(.bottom, 16)
+                                .padding(.leading, 16)
+                        
 
                             NavigationLink(
                                 destination: Group {

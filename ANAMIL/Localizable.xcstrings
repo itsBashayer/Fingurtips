@@ -210,6 +210,16 @@
         }
       }
     },
+    "Get started with the steps!" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ابدأ بالخطوات!"
+          }
+        }
+      }
+    },
     "I'm angry" : {
       "comment" : "Feeling - Angry",
       "localizations" : {
@@ -402,6 +412,16 @@
         }
       }
     },
+    "Next Step" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخطوة التالية"
+          }
+        }
+      }
+    },
     "Ok" : {
       "localizations" : {
         "ar" : {
@@ -533,6 +553,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "حذاء"
+          }
+        }
+      }
+    },
+    "Skip" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تخطي"
+          }
+        }
+      }
+    },
+    "Start Fingurtips!" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ابدأ مع أنامل!"
           }
         }
       }
