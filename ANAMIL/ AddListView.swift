@@ -43,8 +43,8 @@ struct AddListView: View {
 
                             TextField("List Name", text: $listName)
                                 .padding()
-                                .foregroundColor(.navey) //
                                 .frame(height: 48)
+                                .foregroundColor(.navey)
                                 .background(
                                     RoundedRectangle(cornerRadius: 30)
                                         .stroke(Color.blue22, lineWidth: 1.5)
@@ -207,14 +207,14 @@ struct CardPreviewView: View {
 
             Text(title)
                 .font(.system(size: 20))
+               // .foregroundColor(.navey)
                 .fontWeight(.medium)
-                .foregroundColor(.navey)
+                .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .frame(width: 168.78, height: 210.16)
-        .background(Color("CardBGColor"))
         .background(Color.white.opacity(0.8))
         .cornerRadius(21.78)
         .overlay(

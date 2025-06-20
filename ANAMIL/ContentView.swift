@@ -7,9 +7,10 @@
 // LAST ONE
 
 
+
 import SwiftUI
 import CloudKit
-
+//import LocalAuthentication
 
 struct StaticCard: Identifiable {
     let id = UUID()
@@ -43,7 +44,23 @@ struct ContentView: View {
     @State private var loadedColor: Color = .purple1
     @State private var loadedImage: UIImage?
 
-
+//    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+//        let context = LAContext()
+//        var error: NSError?
+//
+//        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+//            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
+//            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
+//                DispatchQueue.main.async {
+//                    completion(success)
+//                }
+//            }
+//        } else {
+//            DispatchQueue.main.async {
+//                completion(false)
+//            }
+//        }
+//    }
 
     var body: some View {
         NavigationStack {
@@ -58,27 +75,30 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                                                   isEditing.toggle()
-                                                               }) {
-                                                                   Text(isEditing ? "Done" : "Edit")
-                                                                       .frame(width: 63, height: 26.42)
-                                                                       .font(.system(size: 14.85, weight: .bold))
-                                                                       .foregroundColor(.darkBlue1)
-                                                                       .background(Color.white)
-                                                                       .cornerRadius(25.52)
-                                                               }
-                                                           }
-                               // Spacer()
+                                    isEditing.toggle()
+//                                    authenticateWithFaceID { success in
+//                                        if success {
+//                                            isEditing.toggle()
+//                                        }
+//                                    }
+                                }) {
+                                    Text(isEditing ? "Done" : "Edit")
+                                        .frame(width: 63, height: 26.42)
+                                        .font(.system(size: 14.85, weight: .bold))
+                                        .foregroundColor(.darkBlue1)
+                                        .background(Color.white)
+                                        .cornerRadius(25.52)
+                                }
                             }
                             .padding(.horizontal)
                             .padding(.top, 30)
 
-                            VStack(alignment: .leading, spacing: 10) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text("Your Child's Lists")
                                     .font(.system(size: 24, weight: .bold))
                                     //.foregroundColor(.black)
                                     .foregroundColor(Color("PrimaryTextColor"))
-                                    .padding(.leading, 16)
+
 
                             
                             }
@@ -154,7 +174,7 @@ struct ContentView: View {
                                         )
                                     }
                                 }
-
+                                
                                 Button(action: {
                                     showAddListSheet = true
                                 }) {
@@ -175,10 +195,36 @@ struct ContentView: View {
                                     AddListView().environmentObject(cloudKitManager)
                                 }
 
+//                                Button(action: {
+//                                    showAddListSheet = true
+////                                    authenticateWithFaceID { success in
+////                                        if success {
+////                                            authPassed = true
+////                                        }
+////                                    }
+//                                }) {
+//                                    CardButtonView(card: .constant(
+//                                        StaticCard(
+//                                            title: NSLocalizedString("Add List", comment: "Title for the button to add a new List"),
+//                                            imageName: "Plus Sign",
+//                                            frameColor: .blue1,
+//                                            strokeColor: .darkBlue,
+//                                            iconName: "Adding Icon",
+//                                            imageTopPadding: 10,
+//                                            recordID: CKRecord.ID(recordName: "Add List"),
+//                                            categoryID: CKRecord.ID(recordName: "Add List")
+//                                        )
+//                                    ), isEditing: $isEditing, cardWidth: cardWidth)
+//                                }
+//                                .fullScreenCover(isPresented: $authPassed) {
+//                                    AddListView().environmentObject(cloudKitManager)
+//                                }
+                            }
+
                             Spacer(minLength: 100)
                         }
                         .padding()
-                       // .frame(minHeight: geo.size.height)
+                        .frame(minHeight: geo.size.height)
                     }
                     .background(
                         Image("onboarding")

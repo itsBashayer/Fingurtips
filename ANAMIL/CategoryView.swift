@@ -1,6 +1,7 @@
+
 import SwiftUI
 import CloudKit
-
+//import LocalAuthentication
 
 struct CategoryView: View {
     @State private var showAddListSheet = false
@@ -14,7 +15,25 @@ struct CategoryView: View {
     var categoryColor: Color
     let categoryTitle: String
 
-
+//    // Face ID authentication logic
+//    private func authenticateWithFaceID(completion: @escaping (Bool) -> Void) {
+//        let context = LAContext()
+//        var error: NSError?
+//
+//        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+//            let reason = "We need to use Face ID to verify your identity, add a new list, and also to edit and add a new card."
+//
+//            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
+//                DispatchQueue.main.async {
+//                    completion(success)
+//                }
+//            }
+//        } else {
+//            DispatchQueue.main.async {
+//                completion(false)
+//            }
+//        }
+//    }
 
     var body: some View {
         NavigationStack {
@@ -34,16 +53,23 @@ struct CategoryView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                                           isEditing.toggle()
-                                                       }) {
-                                                           Text(isEditing ? "Done" : "Edit")
-                                                               .frame(width: 63, height: 26.42)
-                                                               .font(.system(size: 14.85, weight: .bold))
-                                                               .foregroundColor(.darkBlue1)
-                                                               .background(Color.white)
-                                                               .cornerRadius(25.52)
-                                                       }
-                                                   }
+                                    isEditing.toggle()
+//                                    authenticateWithFaceID { success in
+//                                        if success {
+//                                            isEditing.toggle()
+//                                        } else {
+//                                            print("Authentication failed or canceled")
+//                                        }
+//                                    }
+                                }) {
+                                    Text(isEditing ? "Done" : "Edit")
+                                        .frame(width: 63, height: 26.42)
+                                        .font(.system(size: 14.85, weight: .bold))
+                                        .foregroundColor(.darkBlue1)
+                                        .background(Color.white)
+                                        .cornerRadius(25.52)
+                                }
+                            }
                             .padding(.horizontal)
                             .padding(.top, 40)
 
@@ -151,7 +177,7 @@ struct CategoryView: View {
             }
         }
     }
-
+    
     private func addCardButton(cardWidth: CGFloat) -> some View {
         Button(action: {
                    showAddListSheet = true
@@ -178,7 +204,7 @@ struct CategoryView: View {
                        .environmentObject(cloudKitManager)
                }
            }
-       }
+}
 
 #Preview {
     CategoryView(

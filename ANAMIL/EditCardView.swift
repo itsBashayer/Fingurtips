@@ -302,6 +302,7 @@ struct CardPreviewView2: View {
             Text(title)
                 .font(.system(size: 20))
                 .fontWeight(.medium)
+                .foregroundColor(.primary)
                 .foregroundColor(.navey)
                // .multilineTextAlignment(.leading) // Left alignment
                 //.frame(maxWidth: .infinity, alignment: .leading) // Align left

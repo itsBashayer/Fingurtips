@@ -45,8 +45,8 @@ struct AddCardView: View {
 
                             TextField("Card Name", text: $listName)
                                 .padding()
-                                .foregroundColor(.navey) //
                                 .frame(height: 48)
+                                .foregroundColor(.navey)
                                 .background(
                                     RoundedRectangle(cornerRadius: 30)
                                         .stroke(Color.blue22, lineWidth: 1.5)
