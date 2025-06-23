@@ -30,9 +30,6 @@ You can download the app from the [App Store](https://apps.apple.com/sa/app/fing
 - Methodology: PECS (Picture Exchange Communication System)
 
 
-## 🤝 Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
