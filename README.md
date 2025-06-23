@@ -12,6 +12,8 @@ Fingurtips is a mobile app designed to empower communication and connection for 
 ## 📱 Screenshots
 
 ![Fingurtips Screenshot](Screenshots/Screen1.png)
+![Fingurtips Screenshot](Screenshots/Screen2.png)
+![Fingurtips Screenshot](Screenshots/Screen3.png)
 
 ## 📦 Installation
 
