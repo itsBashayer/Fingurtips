@@ -11,8 +11,11 @@ Fingurtips is a mobile app designed to empower communication and connection for 
 
 ## 📱 Screenshots
 
-![Screen1](https://github.com/user-attachments/assets/864f41e2-8f21-4292-8b4e-65966e4618e2) [Screen2](https://github.com/user-attachments/assets/db547bed-7fd1-45ef-94d1-c4d00406f2ab) ![Screen3](https://github.com/user-attachments/assets/a2da25b3-b296-452b-91e0-74917a3d8e1d)
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/13c23e55-0374-43df-9190-5f0e48b0348b" alt="Screen1" width="200"/>
+  <img src="https://github.com/user-attachments/assets/38dcac8a-6365-46e4-b6e3-09a0e6f7386f" alt="Screen2" width="200"/>
+  <img src="https://github.com/user-attachments/assets/dce7e9b9-22a2-4a15-8155-50aafc9d942e" alt="Screen3" width="200"/>
+</p>
 
 
 
