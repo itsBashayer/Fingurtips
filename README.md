@@ -26,9 +26,6 @@ You can download the app from the [App Store](https://apps.apple.com/sa/app/fing
 - Language: Swift (assumed)
 - Methodology: PECS (Picture Exchange Communication System)
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
